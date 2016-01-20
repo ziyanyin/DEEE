@@ -45,7 +45,7 @@ std::vector<double> Cpp_fvalue (const std::vector<std::vector<double> > & myData
     int k = myData.size(), n = 0;
 
     // Theoretical details could be found in Welleck's book.
-    double totalsum = 0.0, numvar = 0.0, denumvar = 0.0;
+    double totalsum = 0.0, denumvar = 0.0;
     for (auto i = myData.begin(); i != myData.end(); i++) {
         n += (*i).size();
         totalsum += Cpp_sum(*i);
