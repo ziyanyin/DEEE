@@ -191,7 +191,7 @@ HeatMap = function(mydata, mainPar = list(), heatPar = list(), legPar = list(), 
     on.exit(par(parDe))
     if(is.null(heatPar$mycol)) heatPar$mycol = c("blue", "red", "green")
     mycol = heatPar$mycol
-    do.call("DEEEHeat", paraMerge(list(mydata = mydata, mycol = mycol), heatPar))
+    res = do.call("DEEEHeat", paraMerge(list(mydata = mydata, mycol = mycol), heatPar))
 
     legPar = paraMerge(list(pos = c(nx + 0.5, ny / 2, nx + 1, ny), labels = c(round(max(mydata), -1), 0)), legPar)
     legPar$mycol = mycol
@@ -209,7 +209,7 @@ HeatMap = function(mydata, mainPar = list(), heatPar = list(), legPar = list(), 
             do.call("DEEEAxis", tmpAxisPar)
         }
     }
-    return(c(0, ny, 0, nx))
+    return(res)
 }
 
 
