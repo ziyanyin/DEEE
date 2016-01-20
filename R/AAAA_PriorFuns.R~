@@ -1,0 +1,103 @@
+### Merge two arguments list into a new one
+#' Merge two arguments list into a new one. The old parameters will be over-written by new parameters.
+#'
+#' @param oldP The old parameters list.
+#' @param newP The new parameters list.
+#' @return Return a list of merged parameters.
+#' @examples
+#' paraMerge(list(t1 = 1, t2 = 2, t3 = 3, t4 = 4), list(t3 = 4, t4 = 5, t5 = 6, t6 = 7))
+#' @export
+
+paraMerge = function(oldP, newP)
+{
+    if(any(is.null(newP), length(newP) == 0)) return(oldP)
+    if(any(is.na(newP))) return(NA)
+    if(length(newP) == 1 && is.na(newP)) return(list(NA))
+    oldP = as.list(oldP)
+    newP = as.list(newP)
+    oldP = as.environment(oldP)
+    lapply(names(newP), function(nm) oldP[[nm]] = newP[[nm]])
+
+    return(as.list(oldP))
+}
+
+
+### Calculate the p-value of data given the epsilon and the test type.
+#' Calculate the p-value of target data given the epsilon and the test type. Cpp_p_function, an alternative for the same purpose, is much faster and recommended for this reason.
+#'
+#' @param epsilon A value used for equivalence test. Only valid when ifF == FALSE.
+#' @param ifF F test or equivalence test?
+#' @param myData A list of data to be analyzed.
+#' @return P value.
+#' @examples
+#' library(microbenchmark)
+#' a = rnorm(100)
+#' b = rnorm(150)
+#' d = rnorm(200)
+#' e = runif(250)
+#' microbenchmark(p_function(0, FALSE, list(a, b, d, e)), Cpp_p_function(0, FALSE, list(a, b, d, e)))
+#' @export
+
+p_function = function(epsilon = 0, ifF = FALSE, myData)
+{
+    mylist = myData
+    k = length(mylist)
+    n = sum(sapply(mylist, length))
+    xbar = sum(sapply(mylist, sum)) / n
+    num = sum(sapply(mylist, function(x) length(x) / n * k * (mean(x) - xbar)^2))
+    denum = 1 / (n - k) * sum(sapply(mylist, function(x) sum((x - mean(x))^2)))
+    myfvalue = num / denum
+    if(round(num, 18) == 0) myfvalue = 0
+
+    fvalue = myfvalue * n / k / (k - 1)
+    adjep = n / k * epsilon^2
+    pvalue = (1 - ifF) * pf(fvalue, k - 1, n - k, adjep) + ifF * (1 - pf(fvalue, k - 1, n - k))
+    return(pvalue)
+}
+
+### Cpp version of p_function, which is much faster.
+#' Given a list of data, return the pvalue of standard F test or equivalence F test.
+#'
+#' @param epsilon A value used for equivalence test.
+#' @param ifF If F test or equivalence F test?
+#' @param myData Data list for testing. Must be list type.
+#' @return P value.
+#' @export
+
+Cpp_p_function = function(epsilon = 0, ifF = FALSE, myData = list()) {
+    res = Cpp_fvalue(myData)
+    return(ifelse(ifF, (1 - pf(res[1], res[3] - 1, res[2] - res[3])), pf(res[1], res[3] - 1, res[2] - res[3], epsilon * epsilon * res[2] / res[3])))
+}
+
+#' Produce the plot matirx base on omd = c(0, 1, 0, 1). Cpp version Cpp_plotMat exists.
+#'
+#' @param nfig Total number of figures to plot
+#' @param figcol Figures layout column number.
+#' @param xshrink,yshrink The right or top shrink.
+#' @return A list of positions.
+#' @examples
+#' plotMat(10, 3)
+#' @export
+
+plotMat = function(nfig, figcol, xshrink = 1, yshrink = 1)
+{
+    pmat = vector("list", nfig)
+
+    nfigrow = ceiling(nfig / figcol)
+    nfigcol = ceiling(nfig / nfigrow)
+
+    for(tmpi in 1:nfig)
+    {
+        colNum = (tmpi - 1) %/% nfigrow + 1
+        rowNum = ifelse(tmpi %% nfigrow == 0, nfigrow, tmpi %% nfigrow)
+
+        pmat[[tmpi]] = c((colNum - 1) / nfigcol * xshrink, colNum / nfigcol * xshrink, (nfigrow - rowNum) / nfigrow * yshrink, (nfigrow - rowNum + 1) / nfigrow * yshrink)
+    }
+
+    pmat
+}
+
+# Clean up 
+.onUnload <- function (libpath) {
+  library.dynam.unload("DEEE", libpath)
+}

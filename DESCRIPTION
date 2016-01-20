@@ -1,0 +1,29 @@
+Package: DEEE
+Type: Package
+Title: DE EE Analysis
+Version: 1.1
+Date: 2016-01-10
+Author: Ziyan Yin
+Maintainer: Ziyan Yin<ziyanyin91@gmail.com>
+Description: This package provides analytical and graphical tools for multi-
+    hypotheses tests and DE EE analysis.
+License: N/A
+LazyData: TRUE
+LinkingTo: Rcpp
+Imports:
+    Rcpp
+RoxygenNote: 5.0.1
+Collate:
+    'AAAA_PriorFuns.R'
+    'AA_samVecClass.R'
+    'DEEE.R'
+    'DocData.R'
+    'FDR_BHRejClass.R'
+    'FDR_BHRejVecClass.R'
+    'HM_HeatnAxisnLeg.R'
+    'PCA_PCA.R'
+    'RcppExports.R'
+    'WV_grpWVClass.R'
+    'WV_weaveClass.R'
+    'test.R'
+SystemRequirements: C++11

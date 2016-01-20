@@ -1,0 +1,26 @@
+#ifndef BHREJ_H
+#define BHREJ_H
+
+#include <Rcpp.h>
+#include <algorithm>
+#include "priorFuns.h"
+
+using namespace Rcpp;
+
+std::vector<bool> medWVY (NumericMatrix & , std::vector<int> & ) ;
+std::vector<bool> madWVY (NumericMatrix & , std::vector<int> & ) ; 
+std::vector<double> matRankit (NumericMatrix & ) ; 
+
+class weave {
+public:
+	weave (NumericMatrix & ) ;
+	std::vector<double> rankit () ;
+	std::vector<bool> med_y (std::vector<int> & ) ;
+	std::vector<bool> mad_y (std::vector<int> & ) ;
+private:
+	NumericMatrix mat;
+	int nrow = 0;
+	int ncol = 0;
+	int nweave = 0;
+};
+#endif

@@ -1,0 +1,149 @@
+##########################################################
+################ Class of BHRejVector ####################
+##########################################################
+#' @include FDR_BHRejClass.R
+#' @include AA_sampleVectorClass.R
+NULL
+
+#' Construct a BHRejVector object, which is a combination of BHRej objects.
+#'
+#' @param FDR A vector of FDR control value, all within (0, 1).
+#' @param testset A sampleVector object containing data and information.
+#' @param ifFtest F test or Equivalence F test?
+#' @param eps The equivalence test tolerance value. Only valid when ifFtest == FALSE.
+#' @return A BHRejVector object.
+#' @examples
+#' data(GCwPADataA)
+#' t1 = sampleVector(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"), dataType = "Example")
+#' DE = BHRejVector(FDR = c(0.1, 0.01), testset = t1)
+#' EE = BHRejVector(FDR = c(0.1, 0.01), testset = t1, ifFtest = TRUE)
+#' @export
+
+BHRejVector = function(FDR = 0.1, testset, ifFtest = FALSE, eps = 0.5)
+{
+    if(!is(testset, "sampleVector")) stop("Invalid input; must be sampleVector object")
+    datalist = lapply(testset$colInd, function(x) testset$data[, x])
+	tmpres = Cpp_fvalues(datalist)
+	k = tmpres[1]
+	n = tmpres[2]
+	nrow = tmpres[3]
+	tmpres = tmpres[-(1:3)]
+	if(ifFtest)
+	{
+		pvalues = sapply(tmpres, function(x) 1 - pf(x, k - 1, n - k))
+	}
+	else
+	{
+		pvalues = sapply(tmpres, function(x) pf(x, k - 1, n - k, eps * eps * n / k))
+	}
+	rejlist = lapply(FDR, function(tmpq) BHRej(FDR = tmpq, pvalues))
+
+    res = list()
+    res$BHProc = rejlist
+
+    res$testType = ifelse(ifFtest, "DE", "EE")
+    res$labels = testset$labels
+    res$dataType = testset$dataType
+	res$FDR = FDR
+    class(res) = "BHRejVector"
+
+    return(res)
+}
+
+#' Print method for BHRejVector class
+#'
+#' @param myobj A BHRejVector object.
+#' @export
+print.BHRejVector = function(myobj)
+{
+    DEEE = myobj$testType
+    obj = myobj$BHProc
+    cat("This is a BHRejVector class object for", myobj$dataType, DEEE, "analysis. \n")
+    FDR = format(myobj$FDR)
+    Rejections = sapply(obj, function(x) length(x$rej_list))
+    RejRate = paste0(format(Rejections / length(obj[[1]]$p_values) * 100, digits = 4), "%")
+    tmp = data.frame(FDR = FDR, Rej = Rejections, Total = sapply(obj, function(sgl) sgl$nTest), RejRate = RejRate)
+    print(tmp, row.names = FALSE, prefix = "\t\t\t")
+}
+
+#plot.BHRejVector = function(Obj, graPar = NULL, plotPar = list(main = paste0(attr(Obj, "dataType"), " ", attr(Obj, "pool"), ", BH procedure for ", attr(Obj, "equi"))), leg = TRUE, legPar = list(cex = 1))
+#{
+#    parDefault = par(graPar)
+#    on.exit(par(parDefault))
+
+#    myObj = Obj$data
+#    obj = myObj[[1]]
+#    do.call("plot", c(list(x = 1:length(obj$pvalue[, 2]) * 100 / length(obj$pvalue[, 2]), y = obj$pvalue[, 2], type = "l", xlim = range(1, 100), ylim = c(0, 1), ylab = "Sorted Pvalue", xlab = "%"), plotPar))
+#    for(i in 1:length(myObj))
+#    {
+#        tmpn = attr(obj, "length")
+#        obj = myObj[[i]]
+#        lines(1:tmpn * 100 / tmpn, obj$qvalue, col = i, lwd = 0.5 * par("lwd"))
+#    }
+#    if(leg == TRUE) do.call("legend", c(list("topleft", legend = format(sapply(myObj, function(x) attr(x, "FDR"))), lty = 1, col = 1:length(myObj), title = "FDR"), legPar))
+#}
+
+### PIE plot
+#' PIE plot for DE and EE genes.
+#'
+#' @param myDE,myEE Objects of BHRejVector class to be ploted.
+#' @param figcol Number of columns of figures.
+#' @param graPar Adjustment of global plotting parameters.
+#' @param mainPar A list of parameter to adjust the main title.
+#' @param innerPar A list of inner parameters to adjust the pie plots.
+#' @param innerPIE A list of inner parameters to adjust the single pie plot.
+#' @param legPar A list of parameters to adjust legend.
+#' @param yshrink A numeric values between (0, 1) to adjust the height of figures.
+#' @return NULL.
+#' @examples
+#' data(GCwPADataA)
+#' t1 = sampleVector(GCwPADataA, selCol = list(1:5, 6:10, 11:15, 16:20, 21:25, 26:30), labels = LETTERS[1:6])
+#' EE = BHRejVector(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1)
+#' DE = BHRejVector(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1, ifFtest = TRUE)
+#' pdf("test.pdf", width = 12, height = 8)
+#' PIE(DE, EE, figcol = 3, mainPar = list(y = 1.5, main = "TITLE", cex = 2.5), innerPIE = list(radius = 1, col = c("blue", "red", "green")), innerPar = list(mar = c(1.1, 2.1, 6.1, 0)), legPar = list(x = "bottomright", cex = 1.5))
+#' dev.off()
+#' @export
+
+PIE.BHRejVector = function(myDE, myEE, figcol = 1, graPar = list(), mainPar = list(), innerPar = list(), innerPIE = list(), legPar = list(), yshrink = 0.95)
+{
+    tmppar = par(graPar)
+    on.exit(par(tmppar))
+    plot(1, 1, type = "n", axes = FALSE, xlab = "", ylab = "")
+    do.call("text", paraMerge(list(x = 1, y = 1.5, labels = mainPar$main, font = 2, cex = 2, xpd = NA), mainPar))
+
+    if(is.null(innerPIE$col)) tmpcol = c("lightblue", "yellow", "firebrick")
+    else tmpcol = innerPIE$col
+
+    if(is.null(legPar$ifleg) || legPar$ifleg)
+    {
+        legPar$ifleg = NULL
+        do.call("legend", paraMerge(list(x = "topright", fill = tmpcol, legend = c("Other", "EE", "DE"), xpd = NA, bty = "n"), legPar))
+    }
+
+    if(!is(myEE, "BHRejVector")) stop("Invalid input object")
+    DE = myDE$BHProc
+    EE05 = myEE$BHProc
+    if(length(DE) != length(EE05)) stop("Lenght of DE and EE data must be the same")
+
+    FDR = myDE$FDR
+
+    nfig = length(DE)
+    nfigrow = ceiling(nfig / figcol)
+    nfigcol = ceiling(nfig / nfigrow)
+    for(tmpi in seq_along(DE))
+    {
+        colNum = (tmpi - 1) %/% nfigrow + 1
+        rowNum = ifelse(tmpi %% nfigrow == 0, nfigrow, tmpi %% nfigrow)
+
+        par(fig = c((colNum - 1) / nfigcol, colNum / nfigcol, (nfigrow - rowNum) / nfigrow * yshrink, (nfigrow - rowNum + 1) / nfigrow) * yshrink, new = TRUE)
+        tmpEE05 = EE05[[tmpi]]
+        tmpDE = DE[[tmpi]]
+
+        do.call("PIE.BHRej", paraMerge(list(DE = tmpDE, EE = tmpEE05, graPar = innerPar), list(piePar = paraMerge(list(col = tmpcol), innerPIE))))
+        par(fig = c(0, 1, 0, 1))
+    }
+
+    invisible()
+}
+

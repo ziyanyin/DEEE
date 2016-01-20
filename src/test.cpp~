@@ -1,0 +1,48 @@
+#include <Rcpp.h>
+#include <algorithm>
+#include "priorFuns.h"
+#include "BHRej.h"
+#include "BHRejVector.h"
+
+using namespace Rcpp;
+
+//' Test
+//'
+//' @param mat A matrix.
+//' @param ref A list of indexes.
+//' @export
+// [[Rcpp::export]]
+
+std::vector<bool> med_var (NumericMatrix & mat, std::vector<int> & ref) {
+	int ncol = mat.ncol();
+	int nrow = mat.nrow();
+	std::vector<bool> res;
+	std::sort(ref.begin(), ref.end());
+	std::vector<int> total;
+	for (int i = 0; i != ncol; i++) {
+		total.push_back(i);
+	}
+	for (int ir = 0; ir != nrow; ir++) {
+		std::vector<double> ref_x;
+		std::vector<double> ref_y;
+		auto pref = ref.begin();
+		auto ptotal = total.begin();
+		while (pref != ref.end() && ptotal != total.end()) {
+			if ((*ptotal) == (*pref)) {
+				ref_x.push_back(mat(ir, *pref));
+				pref++;
+				ptotal++;
+			} else {
+				ref_y.push_back(mat(ir, *ptotal));
+				ptotal++;
+			}
+		}
+		while (ptotal != total.end()) {
+			ref_y.push_back(mat(ir, *ptotal));
+			ptotal++;
+		}
+	res.push_back(Cpp_median(ref_x) > Cpp_median(ref_y));
+	}
+	return res;
+}
+

@@ -1,0 +1,108 @@
+########################################################
+################ Class of sampleVector #################
+########################################################
+
+#' Produce a sampleVector object.
+#'
+#' @param myDataset A matrix.
+#' @param sampleSelect A list containing test columns of samples.
+#' @param labels A vector of characters or short strings.
+#' @param dataType A long string contains data type or other useful imformation.
+#' @param hiderownames Hide row names or not.
+#' @return Return a sampleVector object.
+#' @examples
+#' datamatrix = matrix(rnorm(100000), 1000, 100)
+#' testset = sampleVector(datamatrix, sampleSelect = list(1:5, 11:15, 21:25), dataType = "Example")
+#' @export
+
+sampleVector = function(myDataset, sampleSelect = NULL, labels = NULL, dataType = "MAQC", hiderownames = TRUE)
+{
+    if(!is.matrix(myDataset)) stop("myDataset has to be a matrix")
+    if(!is.list(sampleSelect)) stop("sampleSelect must be a list.")
+    if(is.null(labels))
+    {
+        labels = 1:length(sampleSelect)
+    }
+    else labels = labels
+
+	colInd = split(1:ncol(myDataset), factor(rep(1:length(sampleSelect), sapply(sampleSelect, length))))
+    if(length(labels) != length(sampleSelect))
+    {
+        warning("Unequal numbers of labels and sampleSelect.")
+        labels = rep_len(labels, length(sampleSelect))
+    }
+
+	testset$colInd = colInd
+    testset$data = myDataset
+	testset$nGenes = nrow(myDataset)
+    testset$labels = labels
+    testset$dataType = dataType
+    testset$sampleSelect = sampleSelect
+    class(testset) = "sampleVector"
+
+    return(testset)
+}
+
+
+#' Print methods of class sampleVector
+#'
+#' @param obj A sampleVector object.
+#' @export
+print.sampleVector = function(obj)
+{
+    cat("This is a sampleVector class.\n")
+    cat(paste0("Sample: ", obj$dataType, " , Columns: ", paste0(obj$sampleSelect, collapse = ", ")), ".\n")
+    tmpstr = sapply(seq_along(obj$sampleSelect), function(i) paste0(obj$nGenes, sapply(obj$sampleSelect, length), collapse = "*"))
+    cat(paste0("Sample size: ", length(obj$sampleSelect), ".\n"))
+    print(data.frame(SampleLabels = paste(obj$labels, "   "), SampleDim = I(tmpstr)))
+}
+
+#' Plot methods of class sampleVector
+#'
+#' @param obj A sampleVector object.
+#' @param graPar A list of global graphical parameters
+#' @param col A vector of strings or ints to specify colors.
+#' @param lty A vector of ints to specify line types.
+#' @param main A string specifying main title.
+#' @param legPar A list of parameters specifying the legend. 
+#' @export
+plot.sampleVector = function(obj, graPar = NULL, col = NULL, lty = NULL, main = "KDE", legPar = list())
+{
+    parDe = par(graPar)
+    on.exit(par(parDe))
+
+    tmpRes = lapply(obj$data, function(x) density(as.vector(x$data)))
+
+    if(is.null(col)) col = seq_along(tmpRes)
+    if(is.null(lty)) lty = seq_along(tmpRes)
+    if(!is.list(legPar)) stop("legPar should be a list")
+
+    xpoint = sapply(tmpRes, function(tmpx) tmpx$x)
+    ypoint = sapply(tmpRes, function(tmpx) tmpx$y)
+
+    plot(0, 0, xlim = range(xpoint), ylim = range(ypoint), type = "n", xlab = "", ylab = "Densities", main = main)
+
+    for(i in seq_along(tmpRes))
+    {
+        lines(tmpRes[[i]], col = col[i], lty = lty[i])
+    }
+
+    par(xpd = FALSE)
+    grid()
+    if(is.null(legPar$ifleg) || legPar$ifleg)
+    {
+        legPar$ifleg = NULL
+        do.call("legend", c(list("topright", legend = paste0("site ", obj$labels), col = col, lty = lty), legPar))
+    }
+
+    invisible()
+}
+
+# Convert a sampleVector object to matrix.
+sv2m = function(lm) {
+	len = length(lm$data)
+	if(len <= 1) return(lm$data[[1]]$data)
+	tmp = lm$data[[1]]$data
+	sapply(2:len, function(i) tmp <<- cbind(tmp, lm$data[[i]]$data))
+	return(tmp)
+}
