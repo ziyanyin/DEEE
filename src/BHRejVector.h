@@ -8,7 +8,7 @@
 using namespace Rcpp;
 
 std::vector<double> Cpp_fvalue (const std::vector<std::vector<double> > & ) ;
-std::vector<double> Cpp_fvalues (const std::vector<NumericMatrix> & );
+std::vector<double> Cpp_fvalues (std::vector<NumericMatrix> & );
 
 class BHRejVector {
 public:

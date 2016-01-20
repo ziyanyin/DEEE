@@ -18,7 +18,7 @@ std::vector<double> weave::rankit () {
 	}
 	std::vector<int> mr = Cpp_rank(mv);
 	std::vector<double> res;
-	for (auto i = mr.begin(); i != mr.end(); i++) {
+	for (std::vector<int>::iterator i = mr.begin(); i != mr.end(); i++) {
 		res.push_back(((*i) + 1.0) / (nrow + 1));
 	}
 	return res;
@@ -34,8 +34,8 @@ std::vector<bool> weave::med_y (std::vector<int> & ref) {
 	for (int ir = 0; ir != nrow; ir++) {
 		std::vector<double> ref_x;
 		std::vector<double> ref_y;
-		auto pref = ref.begin();
-		auto ptotal = total.begin();
+		std::vector<int>::iterator pref = ref.begin();
+		std::vector<int>::iterator ptotal = total.begin();
 		while (pref != ref.end() && ptotal != total.end()) {
 			if ((*ptotal) == (*pref)) {
 				ref_x.push_back(mat(ir, *pref));
@@ -65,8 +65,8 @@ std::vector<bool> weave::MAD_y (std::vector<int> & ref) {
 	for (int ir = 0; ir != nrow; ir++) {
 		std::vector<double> ref_x;
 		std::vector<double> ref_y;
-		auto pref = ref.begin();
-		auto ptotal = total.begin();
+		std::vector<int>::iterator pref = ref.begin();
+		std::vector<int>::iterator ptotal = total.begin();
 		while (pref != ref.end() && ptotal != total.end()) {
 			if ((*ptotal) == (*pref)) {
 				ref_x.push_back(mat(ir, *pref));

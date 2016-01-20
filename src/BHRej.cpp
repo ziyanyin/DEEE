@@ -40,7 +40,7 @@ std::vector<int> BHRej::rej_list (const float FDR) {
 // [[Rcpp::export]]
 std::vector<int> Cpp_FDR(std::vector<double> & p, const float FDR = 0.1) {
     std::vector<int> res = (BHRej(p)).rej_list(FDR);
-    for(auto i = res.begin(); i != res.end(); i++) {
+    for(std::vector<int>::iterator i = res.begin(); i != res.end(); i++) {
         (*i)++;
     }
     return res;

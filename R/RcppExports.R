@@ -13,18 +13,6 @@ Cpp_fvalues <- function(lm) {
     .Call('DEEE_Cpp_fvalues', PACKAGE = 'DEEE', lm)
 }
 
-MedWVY <- function(mat, ref) {
-    .Call('DEEE_MedWVY', PACKAGE = 'DEEE', mat, ref)
-}
-
-MADWVY <- function(mat, ref) {
-    .Call('DEEE_MADWVY', PACKAGE = 'DEEE', mat, ref)
-}
-
-MatRankit <- function(mat) {
-    .Call('DEEE_MatRankit', PACKAGE = 'DEEE', mat)
-}
-
 Cpp_plotMat <- function(nfig, figcol, xshrink = 1.0, yshrink = 1.0) {
     .Call('DEEE_Cpp_plotMat', PACKAGE = 'DEEE', nfig, figcol, xshrink, yshrink)
 }
@@ -59,5 +47,17 @@ Cpp_order <- function(vec) {
 #' @export
 Cpp_rank <- function(vec) {
     .Call('DEEE_Cpp_rank', PACKAGE = 'DEEE', vec)
+}
+
+MedWVY <- function(mat, ref) {
+    .Call('DEEE_MedWVY', PACKAGE = 'DEEE', mat, ref)
+}
+
+MADWVY <- function(mat, ref) {
+    .Call('DEEE_MADWVY', PACKAGE = 'DEEE', mat, ref)
+}
+
+MatRankit <- function(mat) {
+    .Call('DEEE_MatRankit', PACKAGE = 'DEEE', mat)
 }
 

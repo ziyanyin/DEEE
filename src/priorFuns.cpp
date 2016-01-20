@@ -2,14 +2,14 @@
 //// Function Cpp_sum, Cpp_var, Cpp_abs.
 double Cpp_sum (const std::vector<double> & l) {
     double res = 0;
-    for (auto i = l.begin(); i != l.end(); i++) {
+    for (std::vector<double>::const_iterator i = l.begin(); i != l.end(); i++) {
         res += *i;
     }
     return res;
 }
 double Cpp_var (const std::vector<double> & l) {
     double res = 0, m = Cpp_sum(l) / l.size();
-    for (auto i = l.begin(); i != l.end(); i++) {
+    for (std::vector<double>::const_iterator i = l.begin(); i != l.end(); i++) {
         res += ((*i) - m) * ((*i) - m);
     }
     return res / (l.size() - 1);
@@ -28,7 +28,11 @@ std::vector<std::vector<float> > Cpp_plotMat (const int nfig, const int figcol, 
     for (int i = 0; i != nfig; i++) {
         int colNum = i / nfigrow + 1;
         int rowNum = ((i + 1) % nfigrow == 0) ? nfigrow : (i + 1) % nfigrow;
-        std::vector<float> tmploc {(colNum - 1) / (float) nfigcol * xshrink, colNum / (float) nfigcol * xshrink, (nfigrow - rowNum) / (float) nfigrow * yshrink, (nfigrow - rowNum + 1) / (float) nfigrow * yshrink};
+        std::vector<float> tmploc;
+		tmploc.push_back((colNum - 1) / (float) nfigcol * xshrink);
+		tmploc.push_back(colNum / (float) nfigcol * xshrink);
+		tmploc.push_back( (nfigrow - rowNum) / (float) nfigrow * yshrink);
+		tmploc.push_back((nfigrow - rowNum + 1) / (float) nfigrow * yshrink);
         res.push_back(tmploc);
     }
 
@@ -52,7 +56,7 @@ double Cpp_median(std::vector<double> l) {
 double Cpp_MAD(std::vector<double> l) {
 	double m1 = Cpp_median(l);
 	std::vector<double> ml;
-	for (auto i = l.begin(); i != l.end(); i++) {
+	for (std::vector<double>::iterator i = l.begin(); i != l.end(); i++) {
 		ml.push_back(Cpp_abs(*i - m1));
 	}
 	return Cpp_median(ml) * 1.4826;
@@ -75,12 +79,16 @@ std::vector<int> Cpp_order (std::vector<double> & vec) {
 	for (int ir = 0; ir != len; ir++) {
 		mv.push_back(std::pair<int, double>(ir, vec[ir]));
 	}
-	std::sort(mv.begin(), mv.end(), [] (const std::pair<int, double> & a, const std::pair<int, double> & b) {return a.second < b.second; });
-	for (auto i = mv.begin(); i != mv.end(); i++) {
+	std::sort(mv.begin(), mv.end(), comppair);
+	for (std::vector<std::pair<int, double> >::iterator i = mv.begin(); i != mv.end(); i++) {
 		res.push_back((*i).first);
 	}
-	std::sort(mv.begin(), mv.end(), [] (const std::pair<int, double> & a, const std::pair<int, double> & b) {return a.first < b.first; });
+	std::sort(mv.begin(), mv.end(), comppair);
 	return res;
+}
+
+bool comppair(const std::pair<int, double> & a, const std::pair<int, double> & b) {
+	return a.first < b.first; 
 }
 
 //' The rank of a vector
