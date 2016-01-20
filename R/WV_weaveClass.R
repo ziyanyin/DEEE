@@ -135,8 +135,9 @@ medWV = function(dataset, degree = 4)
 
 ### print.weave
 #' @export
-print.weave = function(obj)
+print.weave = function(x, ...)
 {
+    obj = x
     cat("This is a weave object.\n")
     cat("Data type: ", obj$dataType, ". Function:", obj$Function, ",", obj$ifeq, ". ")
 	cat("Rankit interval: (", paste0(obj$interval, collapse = ", "), "). \n")
@@ -149,19 +150,21 @@ print.weave = function(obj)
 #'
 #' \code{plot.weave} is the plot method for weave class.
 #'
-#' @param obj A weave object.
+#' @param x A weave object.
 #' @param indSet A vector of integers indicating which weaves are plotted.
 #' @param legPar A list of legend parameters.
 #' @param graPar A list of global graphics parameters.
 #' @param plotPar A list of background (including main title) parameters.
+#' @param ... ignored
 #' @examples
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
 #' m1 = medWV(dataset = testset, degree = 6)
 #' plot(m1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 #' @export
-plot.weave = function(obj, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list())
+plot.weave = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list(), ...)
 {
+    obj = x
     parDe = par(graPar)
     on.exit(par(parDe))
 

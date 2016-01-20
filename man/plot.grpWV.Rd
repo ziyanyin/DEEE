@@ -4,11 +4,11 @@
 \alias{plot.grpWV}
 \title{Plot method for grpWV class}
 \usage{
-\method{plot}{grpWV}(obj, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol
-  = 3), graPar = list(), plotPar = list())
+\method{plot}{grpWV}(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol =
+  3), graPar = list(), plotPar = list(), ...)
 }
 \arguments{
-\item{obj}{A grpWV object.}
+\item{x}{A grpWV object.}
 
 \item{indSet}{A vector of integers indicating which weaves are plotted.}
 
@@ -17,6 +17,8 @@
 \item{graPar}{A list of global graphics parameters.}
 
 \item{plotPar}{A list of background (including main title) parameters.}
+
+\item{...}{ignored}
 }
 \description{
 \code{grpWV} is the plot method for grpWV class.

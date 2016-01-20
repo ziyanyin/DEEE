@@ -4,11 +4,11 @@
 \alias{plot.samVec}
 \title{Plot methods of class samVec}
 \usage{
-\method{plot}{samVec}(obj, graPar = NULL, col = 1:obj$nGroup, lty = rep(1,
-  obj$nGroup), main = "KDE", legPar = list())
+\method{plot}{samVec}(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1,
+  obj$nGroup), main = "KDE", legPar = list(), ...)
 }
 \arguments{
-\item{obj}{A samVec object.}
+\item{x}{A samVec object.}
 
 \item{graPar}{A list of parameters adjusting the global graphics.}
 
@@ -19,6 +19,8 @@
 \item{main}{A string specifying main title.}
 
 \item{legPar}{A list of parameters specifying the legend.}
+
+\item{...}{ignored}
 }
 \description{
 \code{plot.samVec} divides the data by their groups and calcutes their densities

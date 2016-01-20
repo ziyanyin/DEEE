@@ -4,10 +4,10 @@
 \alias{PIE}
 \title{Generic function of PIE plot}
 \usage{
-PIE(x, ...)
+PIE(obj, ...)
 }
 \arguments{
-\item{x}{An object.}
+\item{obj}{An object.}
 
 \item{...}{Others parameters.}
 }

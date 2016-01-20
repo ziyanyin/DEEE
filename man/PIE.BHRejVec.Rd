@@ -4,12 +4,12 @@
 \alias{PIE.BHRejVec}
 \title{PIE plot BHRejVec class.}
 \usage{
-\method{PIE}{BHRejVec}(myDE, myEE, figcol = 1, graPar = list(),
+\method{PIE}{BHRejVec}(obj, objEE, figcol = 1, graPar = list(),
   mainPar = list(), innerPar = list(), innerPIE = list(),
-  legPar = list(), xshrink = 1, yshrink = 0.95)
+  legPar = list(), xshrink = 1, yshrink = 0.95, ...)
 }
 \arguments{
-\item{myDE, myEE}{Objects of BHRejVec class to be ploted.}
+\item{obj, objEE}{Objects of BHRejVec class to be ploted.}
 
 \item{figcol}{An integer indicating the number of columns of figures plotted.}
 
@@ -25,6 +25,8 @@
 
 \item{xshrink, yshrink}{Numeric values between 0 and 1 adjusting the height of figures and
 width.}
+
+\item{...}{ignored}
 }
 \value{
 NULL.

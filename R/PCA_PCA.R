@@ -47,8 +47,9 @@ PCA = function(dataset, scale = F) {
 
 ### Print methods of class PCA
 #' @export
-print.PCA = function(obj)
+print.PCA = function(x, ...)
 {
+    obj = x
     cat("This is a PCA object\n")
     cat("Sample:", obj$dataType, ". Group Labels:", paste0(obj$labels, collapse = ", "), ".\n")
     cat(paste0("Group size: ", obj$nGroup, ". Total Columns: ", obj$nCol, ". Number of Rows: ", obj$nRow, ".\n"))
@@ -60,17 +61,19 @@ print.PCA = function(obj)
 #' \code{plot.PCA} plots all the points given their first and second components. Different
 #' points in different groups are given different colors and labels.
 #'
-#' @param obj A PCA object.
+#' @param x A PCA object.
 #' @param mainPar A list of parameters specifying the main title.
 #' @param graPar A list of global graphics parameters.
 #' @param pcaPar A list of parameters adjusting the PCA points.
+#' @param ... ignored
 #' @examples
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
 #' pca1 = PCA(testset)
 #' plot(pca1, mainPar = list(labels = "Example", y = 1.55), pcaPar = list(cex = 1, font = 2))
 #' @export
-plot.PCA = function(obj, mainPar = list(), graPar = list(), pcaPar = list()) {
+plot.PCA = function(x, mainPar = list(), graPar = list(), pcaPar = list(), ...) {
+    obj = x
     pcx1 = obj$pcx1
     pcx2 = obj$pcx2
 	plot(1, 1, type = "n", axes = FALSE, xlab = "", ylab = "")

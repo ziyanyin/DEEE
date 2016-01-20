@@ -36,8 +36,9 @@ BHRej = function(FDR = 0.1, pvector)
 
 ### print.BHRej
 #' @export
-print.BHRej = function(obj)
+print.BHRej = function(x, ...)
 {
+    obj = x
 	rejl = length(obj$rejList)
     cat("This is a BHRej object.\n")
 	tmp = data.frame(FDR = format(obj$FDR), Rej = rejl, Total = obj$nTest, RejRate = paste0(format(rejl / obj$nTest * 100, digits = 4), "%"))
@@ -50,10 +51,10 @@ print.BHRej = function(obj)
 #' \code{PIE} produces a pie plot. More details could be found in \code{\link{PIE.BHRej}}
 #' and \code{\link{PIE.BHRejVec}}.
 #'
-#' @param x An object.
+#' @param obj An object.
 #' @param ... Others parameters.
 #' @export
-PIE = function(x, ...) UseMethod("PIE")
+PIE = function(obj, ...) UseMethod("PIE")
 
 ### PIE.BHRej
 #' PIE plot
@@ -62,17 +63,20 @@ PIE = function(x, ...) UseMethod("PIE")
 #' contains imformation of DE and the second EE. They should be produced with the same data
 #'  set, but different test types.
 #'
-#' @param DE,EE Objects of BHRej class.
+#' @param obj,objEE Objects of BHRej class.
 #' @param graPar A list of parameters adjusting global graphic.
 #' @param main A string specifying title.
 #' @param piePar A list of parameters adjusting the pie plot.
+#' @param ... ignored
 #' @examples
 #' DE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
 #' EE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
-#' PIE(DE = DE, EE = EE, piePar = list(radius = 0.9, main = "What"))
+#' PIE(DE, EE, piePar = list(radius = 0.9, main = "What"))
 #' @export
-PIE.BHRej = function(DE, EE, graPar = NULL, main =  NULL, piePar = list())
+PIE.BHRej = function(obj, objEE, graPar = NULL, main =  NULL, piePar = list(), ...)
 {
+    DE = obj
+    EE = objEE
     myDE = DE
     myEE = EE
 

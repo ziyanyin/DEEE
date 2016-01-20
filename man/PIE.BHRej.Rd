@@ -4,16 +4,19 @@
 \alias{PIE.BHRej}
 \title{PIE plot}
 \usage{
-\method{PIE}{BHRej}(DE, EE, graPar = NULL, main = NULL, piePar = list())
+\method{PIE}{BHRej}(obj, objEE, graPar = NULL, main = NULL,
+  piePar = list(), ...)
 }
 \arguments{
-\item{DE, EE}{Objects of BHRej class.}
+\item{obj, objEE}{Objects of BHRej class.}
 
 \item{graPar}{A list of parameters adjusting global graphic.}
 
 \item{main}{A string specifying title.}
 
 \item{piePar}{A list of parameters adjusting the pie plot.}
+
+\item{...}{ignored}
 }
 \description{
 \code{PIE.BHRej} produces a pie plot for objects of BHRej class. The first argument
@@ -23,6 +26,6 @@ contains imformation of DE and the second EE. They should be produced with the s
 \examples{
 DE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
 EE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
-PIE(DE = DE, EE = EE, piePar = list(radius = 0.9, main = "What"))
+PIE(DE, EE, piePar = list(radius = 0.9, main = "What"))
 }
 

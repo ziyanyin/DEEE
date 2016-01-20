@@ -4,11 +4,11 @@
 \alias{plot.weave}
 \title{Plot method for weave class}
 \usage{
-\method{plot}{weave}(obj, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol
-  = 3), graPar = list(), plotPar = list())
+\method{plot}{weave}(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol =
+  3), graPar = list(), plotPar = list(), ...)
 }
 \arguments{
-\item{obj}{A weave object.}
+\item{x}{A weave object.}
 
 \item{indSet}{A vector of integers indicating which weaves are plotted.}
 
@@ -17,6 +17,8 @@
 \item{graPar}{A list of global graphics parameters.}
 
 \item{plotPar}{A list of background (including main title) parameters.}
+
+\item{...}{ignored}
 }
 \description{
 \code{plot.weave} is the plot method for weave class.

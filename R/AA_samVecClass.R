@@ -64,8 +64,9 @@ samVec = function(myDataset, selCol = NULL, labels = NULL, dataType = "MAQC")
 }
 
 #' @export
-print.samVec = function(obj)
+print.samVec = function(x, ...)
 {
+    obj = x
     cat("This is a samVec object\n")
     cat(paste0("Data Type: ", obj$dataType, ". Selected Columns: ", paste0(obj$selCol, collapse = ", ")), ".\n")
     tmpstr = data.frame(paste(obj$labels, "   "), I(paste0(obj$nRow, " * ", sapply(obj$selCol, length))))
@@ -79,15 +80,17 @@ print.samVec = function(obj)
 #' \code{plot.samVec} divides the data by their groups and calcutes their densities
 #' separately. Their densities are plotted together in the same figure.
 #'
-#' @param obj A samVec object.
+#' @param x A samVec object.
 #' @param graPar A list of parameters adjusting the global graphics.
 #' @param col A vector of strings or integers specifying colors.
 #' @param lty A vector of integers specifying line types.
 #' @param main A string specifying main title.
 #' @param legPar A list of parameters specifying the legend.
+#' @param ... ignored
 #' @export
-plot.samVec = function(obj, graPar = NULL, col = 1:obj$nGroup, lty = rep(1, obj$nGroup), main = "KDE", legPar = list())
+plot.samVec = function(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1, obj$nGroup), main = "KDE", legPar = list(), ...)
 {
+    obj = x
     parDe = par(graPar)
     on.exit(par(parDe))
     myData = obj$data

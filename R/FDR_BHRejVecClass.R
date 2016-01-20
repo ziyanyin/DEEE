@@ -71,8 +71,9 @@ BHRejVec = function(FDR = 0.1, testset, ifF = FALSE, eps = 0.5)
 
 ### pring.BHRejVec
 #' @export
-print.BHRejVec = function(myobj)
+print.BHRejVec = function(x, ...)
 {
+    myobj = x
     DEEE = myobj$testType
     obj = myobj$BHProc
     cat("This is a BHRejVec object for", myobj$dataType, DEEE, "analysis. \n")
@@ -106,7 +107,7 @@ print.BHRejVec = function(myobj)
 #' \code{PIE.BHRejVec} produces pie plots given two BHRejVec objects. THey must be produced
 #' with the same samVec objec and have the same FDR values but different test types.
 #'
-#' @param myDE,myEE Objects of BHRejVec class to be ploted.
+#' @param obj,objEE Objects of BHRejVec class to be ploted.
 #' @param figcol An integer indicating the number of columns of figures plotted.
 #' @param graPar A list of parameters adjusting global graphics setting.
 #' @param mainPar A list of parameter adjusting the main title.
@@ -115,6 +116,7 @@ print.BHRejVec = function(myobj)
 #' @param legPar A list of parameters adjusting legend.
 #' @param xshrink,yshrink Numeric values between 0 and 1 adjusting the height of figures and
 #' width.
+#' @param ... ignored
 #' @return NULL.
 #' @examples
 #' data(GCwPADataA)
@@ -127,8 +129,10 @@ print.BHRejVec = function(myobj)
 #'  innerPar = list(mar = c(1.1, 2.1, 6.1, 0)), legPar = list(x = "bottomright", cex = 1.5))
 #' dev.off()
 #' @export
-PIE.BHRejVec = function(myDE, myEE, figcol = 1, graPar = list(), mainPar = list(), innerPar = list(), innerPIE = list(), legPar = list(), xshrink = 1, yshrink = 0.95)
+PIE.BHRejVec = function(obj, objEE, figcol = 1, graPar = list(), mainPar = list(), innerPar = list(), innerPIE = list(), legPar = list(), xshrink = 1, yshrink = 0.95, ...)
 {
+    myDE = obj
+    myEE = objEE
     tmppar = paraMerge(list(fig = par("fig"), new = par("new")), par(graPar))
     on.exit(par(tmppar))
     plot(1, 1, type = "n", axes = FALSE, xlab = "", ylab = "")
@@ -156,7 +160,7 @@ PIE.BHRejVec = function(myDE, myEE, figcol = 1, graPar = list(), mainPar = list(
         par(fig = pltdes[[tmpi]], new = TRUE)
         tmpEE = EE[[tmpi]]
         tmpDE = DE[[tmpi]]
-        do.call("PIE.BHRej", paraMerge(list(DE = tmpDE, EE = tmpEE, graPar = innerPar), list(piePar = paraMerge(list(col = tmpcol), innerPIE))))
+        do.call("PIE.BHRej", paraMerge(list(obj = tmpDE, objEE = tmpEE, graPar = innerPar), list(piePar = paraMerge(list(col = tmpcol), innerPIE))))
         invisible()
     })
     invisible()

@@ -134,8 +134,9 @@ madWV = function(dataset, degree = 4)
 
 ### print.grpWV
 #' @export
-print.grpWV = function(obj)
+print.grpWV = function(x, ...)
 {
+    obj = x
     cat("This is a grpWV object.\n")
     cat("Data type: ", obj$dataType, ". Function:", obj$Function, ",", obj$ifeq, ".")
 	cat("Rankit interval: (", paste0(obj$interval, collapse = ", "), "). \n")
@@ -148,19 +149,21 @@ print.grpWV = function(obj)
 #'
 #' \code{grpWV} is the plot method for grpWV class.
 #'
-#' @param obj A grpWV object.
+#' @param x A grpWV object.
 #' @param indSet A vector of integers indicating which weaves are plotted.
 #' @param legPar A list of legend parameters.
 #' @param graPar A list of global graphics parameters.
 #' @param plotPar A list of background (including main title) parameters.
+#' @param ... ignored
 #' @examples
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
 #' madw1 = madWV(dataset = testset, degree = 6)
 #' plot(madw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 #' @export
-plot.grpWV = function(obj, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list())
+plot.grpWV = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list(), ...)
 {
+    obj = x
     refset = 1:length(obj$colInd)
     parDe = par(graPar)
     on.exit(par(parDe))

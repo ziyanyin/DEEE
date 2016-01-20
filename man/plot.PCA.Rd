@@ -4,17 +4,19 @@
 \alias{plot.PCA}
 \title{The plot method for a PCA object.}
 \usage{
-\method{plot}{PCA}(obj, mainPar = list(), graPar = list(),
-  pcaPar = list())
+\method{plot}{PCA}(x, mainPar = list(), graPar = list(), pcaPar = list(),
+  ...)
 }
 \arguments{
-\item{obj}{A PCA object.}
+\item{x}{A PCA object.}
 
 \item{mainPar}{A list of parameters specifying the main title.}
 
 \item{graPar}{A list of global graphics parameters.}
 
 \item{pcaPar}{A list of parameters adjusting the PCA points.}
+
+\item{...}{ignored}
 }
 \description{
 \code{plot.PCA} plots all the points given their first and second components. Different
