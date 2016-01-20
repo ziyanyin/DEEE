@@ -59,7 +59,7 @@ DEEEHeat = function(mydata, mycol = NULL, graPar = list(), textNum = NULL, textX
     if(!(is.null(textX) || is.na(textX))) do.call("text", paraMerge(list(x = 1:nx - 0.5 , y = -1, labels = rownames(mydata), xpd = NA), textX))
     if(!(is.null(textY) || is.na(textY))) do.call("text", paraMerge(list(x = -2, y = seq(nrow(mydata), 1) - 0.5, labels = rownames(mydata), xpd = NA), textY))
 
-    return(c(0, ny, 0, nx))
+    return(c(0, nx, 0, ny))
 }
 
 ### DEEEAxis
