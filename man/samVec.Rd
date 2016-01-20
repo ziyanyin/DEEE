@@ -32,7 +32,8 @@ integer is given.}
 }
 \description{
 \code{samVec} defines the samVec object given necessary data and information.
-The objects of samVec class are the base for further analysis.
+The objects of samVec class are the base for further analysis. 
+See \code{\link{plot.samVec}} for plotting instructions.
 }
 \examples{
 datamatrix = matrix(rnorm(100000), 1000, 100)

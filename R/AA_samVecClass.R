@@ -10,7 +10,8 @@
 #' Produce a samVec object
 #'
 #' \code{samVec} defines the samVec object given necessary data and information.
-#' The objects of samVec class are the base for further analysis.
+#' The objects of samVec class are the base for further analysis. 
+#' See \code{\link{plot.samVec}} for plotting instructions.
 #'
 #' @param myDataset A matrix.
 #' @param selCol A list of vector of integers containing absolute indexes of choosen columns.
@@ -87,6 +88,10 @@ print.samVec = function(x, ...)
 #' @param main A string specifying main title.
 #' @param legPar A list of parameters specifying the legend.
 #' @param ... ignored
+#' @examples
+#' datamatrix = matrix(rnorm(100000), 1000, 100)
+#' testset = samVec(datamatrix, selCol = list(1:5, 11:15, 21:25), dataType = "Example")
+#' plot(testset, main = testset$dataType)
 #' @export
 plot.samVec = function(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1, obj$nGroup), main = "KDE", legPar = list(), ...)
 {

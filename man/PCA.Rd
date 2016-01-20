@@ -25,12 +25,12 @@ A PCA object is returned, which is list containing:
 }
 }
 \description{
-\code{PCA} defines and produces a PCA object.
+\code{PCA} defines and produces a PCA object. See \code{\link{plot.PCA}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
-testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
- dataType = "Example")
+testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
 pca1 = PCA(testset)
 plot(pca1, mainPar = list(labels = "Example", y = 1.55), pcaPar = list(cex = 1, font = 2))
 }

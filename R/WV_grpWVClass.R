@@ -17,7 +17,8 @@ NULL
 #' \code{\link{weave}} is their way to apply FUN. In weave, FUN is applied to every
 #' single column; while in grpWV, FUN takes the whole columns in a group as argument.
 #' See also \code{\link{madWV}}, in which a grpWV object also is produced, but with
-#' FUN = ``mad'', interval = c(0, 1) and ifeq = ``>''.
+#' FUN = ``mad'', interval = c(0, 1) and ifeq = ``>''. See \code{\link{plot.grpWV}}
+#' for plotting instructions.
 #'
 #' @param dataset A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
@@ -47,6 +48,7 @@ NULL
 #' t1 = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
 #' madRes = grpWV(dataset = t1, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = TRUE)
+#' plot(madRes, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 #' @export
 grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FALSE)
 {
@@ -80,7 +82,8 @@ grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FA
 #'
 #' \code{madWV} defines and produces a grpWV object with FUN = ``mad'', interval = c(0, 1)
 #' and ifeq = ``>''. See also \code{\link{grpWV}}, which produces a grpWV object with no
-#' restriction but is much slower.
+#' restriction but is much slower. See \code{\link{plot.grpWV}}
+#' for plotting instructions.
 #'
 #' @param dataset A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
@@ -105,6 +108,7 @@ grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FA
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
 #' gw1 = madWV(dataset = testset, degree = 6)
+#' plot(gw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 #' @export
 madWV = function(dataset, degree = 4)
 {

@@ -32,12 +32,14 @@ A grpWV object is returned, which is a list containing
 \description{
 \code{madWV} defines and produces a grpWV object with FUN = ``mad'', interval = c(0, 1)
 and ifeq = ``>''. See also \code{\link{grpWV}}, which produces a grpWV object with no
-restriction but is much slower.
+restriction but is much slower. See \code{\link{plot.grpWV}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
 gw1 = madWV(dataset = testset, degree = 6)
+plot(gw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 }
 

@@ -23,8 +23,11 @@ A BHRej object is return, which is list containing:
 \description{
 \code{BHRej} implements the Bonjamini-Hocheberg procedure given a vector of p-values.
 Heap sort algorithm is used to improve efficiency. See also \code{\link{BHRejVec}}.
+See \code{\link{PIE.BHRej}} for plotting instructions.
 }
 \examples{
-BHRej(FDR = 0.1, runif(10000, 0, 0.1))
+DE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
+EE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
+PIE(DE, EE, piePar = list(radius = 0.9, main = "What"))
 }
 

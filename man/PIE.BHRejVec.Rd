@@ -28,9 +28,6 @@ width.}
 
 \item{...}{ignored}
 }
-\value{
-NULL.
-}
 \description{
 \code{PIE.BHRejVec} produces pie plots given two BHRejVec objects. THey must be produced
 with the same samVec objec and have the same FDR values but different test types.

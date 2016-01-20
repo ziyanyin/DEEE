@@ -30,13 +30,18 @@ A BHRejVec object is returned. A BHRejVec is a list contains
 \description{
 \code{BHRejVec} defines BHRejVec class and produce a BHRejVec object. A BHRejVec object
 is a combination of BHRej objects of different FDR values. Also, a samVec object
-is used to construct a BHRejVec object.
+is used to construct a BHRejVec object. See \code{\link{PIE.BHRejVec}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
-t1 = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
- dataType = "Example")
-DE = BHRejVec(FDR = c(0.1, 0.01), testset = t1)
-EE = BHRejVec(FDR = c(0.1, 0.01), testset = t1, ifF = TRUE)
+t1 = samVec(GCwPADataA, selCol = list(1:5, 6:10, 11:15, 16:20, 21:25, 26:30), labels = LETTERS[1:6])
+EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1)
+DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1, ifF = TRUE)
+pdf("test.pdf", width = 12, height = 8)
+PIE(DE, EE, figcol = 3, mainPar = list(y = 1.5, main = "TITLE", cex = 2.5),
+ innerPIE = list(radius = 1, col = c("blue", "red", "green")),
+ innerPar = list(mar = c(1.1, 2.1, 6.1, 0)), legPar = list(x = "bottomright", cex = 1.5))
+dev.off()
 }
 

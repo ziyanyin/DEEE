@@ -43,12 +43,14 @@ A weave object is returned, which is a list containing
 \code{\link{grpWV}} is their way to apply FUN. In weave, FUN is applied to every
 single column; while in grpWV, FUN takes the whole columns in a group as argument.
 See also \code{\link{medWV}}, in which a weave object also is produced, but with
-FUN = ``median'', interval = c(0, 1) and ifeq = ``>''.
+FUN = ``median'', interval = c(0, 1) and ifeq = ``>''. See \code{\link{plot.weave}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
 medw1 = weave(dataset = testset, degree = 6, FUN = "median", interval = c(0, 1))
+plot(medw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 }
 

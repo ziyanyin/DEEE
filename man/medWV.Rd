@@ -32,12 +32,14 @@ A weave object is returned, which is a list containing
 \description{
 \code{medWV} defines and produces a weave object with FUN = ``median'',
 interval = c(0, 1) and ifeq = ``>''. See also \code{\link{weave}}, which produces a weave
-object with no restriction but is much slower.
+object with no restriction but is much slower. See \code{\link{plot.weave}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
 m1 = medWV(dataset = testset, degree = 6)
+plot(m1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 }
 

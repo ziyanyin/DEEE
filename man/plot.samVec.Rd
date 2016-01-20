@@ -26,4 +26,9 @@
 \code{plot.samVec} divides the data by their groups and calcutes their densities
 separately. Their densities are plotted together in the same figure.
 }
+\examples{
+datamatrix = matrix(rnorm(100000), 1000, 100)
+testset = samVec(datamatrix, selCol = list(1:5, 11:15, 21:25), dataType = "Example")
+plot(testset, main = testset$dataType)
+}
 

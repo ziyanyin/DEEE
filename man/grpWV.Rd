@@ -43,12 +43,14 @@ A grpWV object is returned, which is a list containing
 \code{\link{weave}} is their way to apply FUN. In weave, FUN is applied to every
 single column; while in grpWV, FUN takes the whole columns in a group as argument.
 See also \code{\link{madWV}}, in which a grpWV object also is produced, but with
-FUN = ``mad'', interval = c(0, 1) and ifeq = ``>''.
+FUN = ``mad'', interval = c(0, 1) and ifeq = ``>''. See \code{\link{plot.grpWV}}
+for plotting instructions.
 }
 \examples{
 data(GCwPADataA)
 t1 = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
 madRes = grpWV(dataset = t1, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = TRUE)
+plot(madRes, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
 }
 
