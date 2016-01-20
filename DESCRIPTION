@@ -27,3 +27,5 @@ Collate:
     'WV_weaveClass.R'
     'test.R'
 SystemRequirements: C++11
+URL: http://github.com/ziyanyin/DEEE
+BugReports: http://github.com/ziyanyin/DEEE/issues
