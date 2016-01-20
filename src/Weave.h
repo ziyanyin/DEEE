@@ -19,8 +19,8 @@ public:
 	std::vector<bool> MAD_y (std::vector<int> & ) ;
 private:
 	NumericMatrix mat;
-	int nrow = 0;
-	int ncol = 0;
-	int nweave = 0;
+	int nrow;
+	int ncol;
+	int nweave;
 };
 #endif
