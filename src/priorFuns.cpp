@@ -1,5 +1,5 @@
 #include "priorFuns.h"
-//// Function Cpp_sum, Cpp_var, Cpp_abs.
+//// Function Cpp_sum, Cpp_var, Cpp_abs, comppair1, comppair2.
 double Cpp_sum (const std::vector<double> & l) {
     double res = 0;
     for (std::vector<double>::const_iterator i = l.begin(); i != l.end(); i++) {
@@ -16,6 +16,12 @@ double Cpp_var (const std::vector<double> & l) {
 }
 double Cpp_abs (const double t) {
 	return (t > 0) ? t : (0 - t);
+}
+bool comppair1(const std::pair<int, double> & a, const std::pair<int, double> & b) {
+	return a.first < b.first; 
+}
+bool comppair2(const std::pair<int, double> & a, const std::pair<int, double> & b) {
+	return a.second < b.second; 
 }
 
 //// Functions exported for internal use.
@@ -40,7 +46,8 @@ std::vector<std::vector<float> > Cpp_plotMat (const int nfig, const int figcol, 
 }
 
 // [[Rcpp::export]]
-double Cpp_median(std::vector<double> l) {
+double Cpp_median(const std::vector<double> lm) {
+	std::vector<double> l = lm;
 	int len = l.size();
 	std::vector<double> resvec;
 	std::make_heap(l.begin(), l.end());
@@ -53,10 +60,10 @@ double Cpp_median(std::vector<double> l) {
 }
 
 // [[Rcpp::export]]
-double Cpp_MAD(std::vector<double> l) {
+double Cpp_MAD(const std::vector<double> l) {
 	double m1 = Cpp_median(l);
 	std::vector<double> ml;
-	for (std::vector<double>::iterator i = l.begin(); i != l.end(); i++) {
+	for (std::vector<double>::const_iterator i = l.begin(); i != l.end(); i++) {
 		ml.push_back(Cpp_abs(*i - m1));
 	}
 	return Cpp_median(ml) * 1.4826;
@@ -72,23 +79,19 @@ double Cpp_MAD(std::vector<double> l) {
 //' @return A vector of integers containing the order the given vector is returned.
 //' @export
 // [[Rcpp::export]]
-std::vector<int> Cpp_order (std::vector<double> & vec) {
+std::vector<int> Cpp_order (const std::vector<double> & vec) {
 	int len = vec.size();
 	std::vector<int> res;
 	std::vector<std::pair<int, double> > mv;
 	for (int ir = 0; ir != len; ir++) {
 		mv.push_back(std::pair<int, double>(ir, vec[ir]));
 	}
-	std::sort(mv.begin(), mv.end(), comppair);
+	std::sort(mv.begin(), mv.end(), comppair2);
 	for (std::vector<std::pair<int, double> >::iterator i = mv.begin(); i != mv.end(); i++) {
 		res.push_back((*i).first);
 	}
-	std::sort(mv.begin(), mv.end(), comppair);
+	std::sort(mv.begin(), mv.end(), comppair1);
 	return res;
-}
-
-bool comppair(const std::pair<int, double> & a, const std::pair<int, double> & b) {
-	return a.first < b.first; 
 }
 
 //' The rank of a vector
@@ -100,7 +103,7 @@ bool comppair(const std::pair<int, double> & a, const std::pair<int, double> & b
 //' @return A vector of integers containing the rank the given vector is returned.
 //' @export
 // [[Rcpp::export]]
-std::vector<int> Cpp_rank (std::vector<double> & vec) {
+std::vector<int> Cpp_rank (const std::vector<double> & vec) {
 	int len = vec.size();
 	std::vector<int> res(len);
 	std::vector<int> to = Cpp_order(vec);

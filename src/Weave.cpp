@@ -1,6 +1,6 @@
 #include "Weave.h"
 
-weave::weave (NumericMatrix & m) {
+weave::weave (const NumericMatrix & m) {
 	mat = m;
 	nrow = mat.nrow();
 	ncol = mat.ncol();
@@ -24,7 +24,8 @@ std::vector<double> weave::rankit () {
 	return res;
 }
 
-std::vector<bool> weave::med_y (std::vector<int> & ref) {
+std::vector<bool> weave::med_y (const std::vector<int> & refl) {
+	std::vector<int> ref = refl;
 	std::vector<bool> res;
 	std::sort(ref.begin(), ref.end());
 	std::vector<int> total;
@@ -55,7 +56,8 @@ std::vector<bool> weave::med_y (std::vector<int> & ref) {
 	return res;
 }
 
-std::vector<bool> weave::MAD_y (std::vector<int> & ref) {
+std::vector<bool> weave::MAD_y (const std::vector<int> & refl) {
+	std::vector<int> ref = refl;
 	std::vector<bool> res;
 	std::sort(ref.begin(), ref.end());
 	std::vector<int> total;
@@ -87,19 +89,19 @@ std::vector<bool> weave::MAD_y (std::vector<int> & ref) {
 }
 
 // [[Rcpp::export]]
-std::vector<bool> MedWVY (NumericMatrix & mat, std::vector<int> & ref) {
+std::vector<bool> MedWVY (const NumericMatrix & mat, const std::vector<int> & ref) {
 	weave wm = weave(mat);
 	return wm.med_y(ref);
 }
 
 // [[Rcpp::export]]
-std::vector<bool> MADWVY (NumericMatrix & mat, std::vector<int> & ref) {
+std::vector<bool> MADWVY (const NumericMatrix & mat, const std::vector<int> & ref) {
 	weave wm = weave(mat);
 	return wm.MAD_y(ref);
 }
 
 // [[Rcpp::export]]
-std::vector<double> MatRankit (NumericMatrix & mat) {
+std::vector<double> MatRankit (const NumericMatrix & mat) {
 	weave wm = weave(mat);
 	return wm.rankit();
 }

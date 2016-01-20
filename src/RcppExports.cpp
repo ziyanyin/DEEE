@@ -39,6 +39,41 @@ BEGIN_RCPP
     return __result;
 END_RCPP
 }
+// MedWVY
+std::vector<bool> MedWVY(const NumericMatrix& mat, const std::vector<int>& ref);
+RcppExport SEXP DEEE_MedWVY(SEXP matSEXP, SEXP refSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type ref(refSEXP);
+    __result = Rcpp::wrap(MedWVY(mat, ref));
+    return __result;
+END_RCPP
+}
+// MADWVY
+std::vector<bool> MADWVY(const NumericMatrix& mat, const std::vector<int>& ref);
+RcppExport SEXP DEEE_MADWVY(SEXP matSEXP, SEXP refSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< const std::vector<int>& >::type ref(refSEXP);
+    __result = Rcpp::wrap(MADWVY(mat, ref));
+    return __result;
+END_RCPP
+}
+// MatRankit
+std::vector<double> MatRankit(const NumericMatrix& mat);
+RcppExport SEXP DEEE_MatRankit(SEXP matSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject __result;
+    Rcpp::RNGScope __rngScope;
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type mat(matSEXP);
+    __result = Rcpp::wrap(MatRankit(mat));
+    return __result;
+END_RCPP
+}
 // Cpp_plotMat
 std::vector<std::vector<float> > Cpp_plotMat(const int nfig, const int figcol, const float xshrink, const float yshrink);
 RcppExport SEXP DEEE_Cpp_plotMat(SEXP nfigSEXP, SEXP figcolSEXP, SEXP xshrinkSEXP, SEXP yshrinkSEXP) {
@@ -54,81 +89,46 @@ BEGIN_RCPP
 END_RCPP
 }
 // Cpp_median
-double Cpp_median(std::vector<double> l);
-RcppExport SEXP DEEE_Cpp_median(SEXP lSEXP) {
+double Cpp_median(const std::vector<double> lm);
+RcppExport SEXP DEEE_Cpp_median(SEXP lmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::vector<double> >::type l(lSEXP);
-    __result = Rcpp::wrap(Cpp_median(l));
+    Rcpp::traits::input_parameter< const std::vector<double> >::type lm(lmSEXP);
+    __result = Rcpp::wrap(Cpp_median(lm));
     return __result;
 END_RCPP
 }
 // Cpp_MAD
-double Cpp_MAD(std::vector<double> l);
+double Cpp_MAD(const std::vector<double> l);
 RcppExport SEXP DEEE_Cpp_MAD(SEXP lSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::vector<double> >::type l(lSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double> >::type l(lSEXP);
     __result = Rcpp::wrap(Cpp_MAD(l));
     return __result;
 END_RCPP
 }
 // Cpp_order
-std::vector<int> Cpp_order(std::vector<double>& vec);
+std::vector<int> Cpp_order(const std::vector<double>& vec);
 RcppExport SEXP DEEE_Cpp_order(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::vector<double>& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type vec(vecSEXP);
     __result = Rcpp::wrap(Cpp_order(vec));
     return __result;
 END_RCPP
 }
 // Cpp_rank
-std::vector<int> Cpp_rank(std::vector<double>& vec);
+std::vector<int> Cpp_rank(const std::vector<double>& vec);
 RcppExport SEXP DEEE_Cpp_rank(SEXP vecSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< std::vector<double>& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< const std::vector<double>& >::type vec(vecSEXP);
     __result = Rcpp::wrap(Cpp_rank(vec));
-    return __result;
-END_RCPP
-}
-// MedWVY
-std::vector<bool> MedWVY(NumericMatrix& mat, std::vector<int>& ref);
-RcppExport SEXP DEEE_MedWVY(SEXP matSEXP, SEXP refSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< std::vector<int>& >::type ref(refSEXP);
-    __result = Rcpp::wrap(MedWVY(mat, ref));
-    return __result;
-END_RCPP
-}
-// MADWVY
-std::vector<bool> MADWVY(NumericMatrix& mat, std::vector<int>& ref);
-RcppExport SEXP DEEE_MADWVY(SEXP matSEXP, SEXP refSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< std::vector<int>& >::type ref(refSEXP);
-    __result = Rcpp::wrap(MADWVY(mat, ref));
-    return __result;
-END_RCPP
-}
-// MatRankit
-std::vector<double> MatRankit(NumericMatrix& mat);
-RcppExport SEXP DEEE_MatRankit(SEXP matSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject __result;
-    Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix& >::type mat(matSEXP);
-    __result = Rcpp::wrap(MatRankit(mat));
     return __result;
 END_RCPP
 }

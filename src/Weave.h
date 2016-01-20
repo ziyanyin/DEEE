@@ -7,16 +7,16 @@
 
 using namespace Rcpp;
 
-std::vector<bool> MedWVY (NumericMatrix & , std::vector<int> & ) ;
-std::vector<bool> MADWVY (NumericMatrix & , std::vector<int> & ) ; 
-std::vector<double> MatRankit (NumericMatrix & ) ; 
+std::vector<bool> MedWVY (const NumericMatrix & , const std::vector<int> & ) ;
+std::vector<bool> MADWVY (const NumericMatrix & , const std::vector<int> & ) ; 
+std::vector<double> MatRankit (const NumericMatrix & ) ; 
 
 class weave {
 public:
-	weave (NumericMatrix & ) ;
+	weave (const NumericMatrix & ) ;
 	std::vector<double> rankit () ;
-	std::vector<bool> med_y (std::vector<int> & ) ;
-	std::vector<bool> MAD_y (std::vector<int> & ) ;
+	std::vector<bool> med_y (const std::vector<int> & ) ;
+	std::vector<bool> MAD_y (const std::vector<int> & ) ;
 private:
 	NumericMatrix mat;
 	int nrow;
