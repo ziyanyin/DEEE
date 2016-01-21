@@ -10,7 +10,7 @@
 #' Produce a samVec object
 #'
 #' \code{samVec} defines the samVec object given necessary data and information.
-#' The objects of samVec class are the base for further analysis. 
+#' The objects of samVec class are the base for further analysis.
 #' See \code{\link{plot.samVec}} for plotting instructions.
 #'
 #' @param datMat A matrix.
@@ -105,7 +105,7 @@ plot.samVec = function(x, graPar = NULL, colSet = 1:x$nGroup, ltySet = rep(1, x$
     if(is.null(legPar$ifleg) || legPar$ifleg)
     {
         legPar$ifleg = NULL
-        do.call("legend", c(list("topright", legend = paste0("site ", obj$labels), col = colSet, lty = ltySet), legPar))
+        do.call("legend", paraMerge(list(x = "topright", legend = paste0("site ", obj$labels), col = colSet, lty = ltySet, xpd = NA), legPar))
     }
 
     sapply(seq_along(tmpRes), function(i) {

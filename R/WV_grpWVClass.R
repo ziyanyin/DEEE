@@ -182,7 +182,7 @@ plot.grpWV = function(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3), graP
         legLoc = NULL
         if(is.null(legPar$x)) legLoc = c(mean(obj$interval), 1.04)
         legPar$ifleg = NULL
-        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltySet, col = colSet), legPar))
+        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltySet, col = colSet, xpd = NA), legPar))
     }
 
 	fitY = obj$fitY

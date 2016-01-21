@@ -183,8 +183,16 @@ plot.weave = function(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3), graP
 
 	newX = x[myOd]
 	refSet = rep(1:length(obj$colInd), sapply(obj$colInd, length))
-	if(is.null(colSet)) colSet = refSet
-	if(is.null(ltySet)) ltySet = refSet
+	colsInd = colSet
+	if(is.null(colsInd)) {
+	    colsInd = 1:length(obj$colInd)
+	}
+	colSet = rep(colsInd, sapply(obj$colInd, length))
+	ltyInd = ltySet
+	if(is.null(ltyInd)) {
+	    ltyInd = 1:length(obj$colInd)
+	}
+	ltySet = rep(ltyInd, sapply(obj$colInd, length))
 	sapply(indSet, function(i) {
 		lines(x = newX, y = fitY[[i]][myOd], col = colSet[i], lty = ltySet[i])
 		})
@@ -195,7 +203,7 @@ plot.weave = function(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3), graP
         legLoc = NULL
         if(is.null(legPar$x)) legLoc = c(mean(int), 1.04)
         legPar$ifleg = NULL
-        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltySet, col = colSet), legPar))
+        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltyInd, col = colsInd, xpd = NA), legPar))
     }
 
     invisible()
