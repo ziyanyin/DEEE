@@ -166,9 +166,10 @@ print.grpWV = function(x, ...)
 #' madw1 = madWV(SVobj = testset, degree = 6)
 #' plot(madw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-plot.grpWV = function(x, indSet = 1:x$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), colSet = NULL, ltySet = NULL, ...)
+plot.grpWV = function(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), colSet = NULL, ltySet = NULL, ...)
 {
     obj = x
+	if(is.null(indSet)) indSet = 1:obj$nWV
     refSet = 1:length(obj$colInd)
 	if(is.null(colSet)) colSet = refSet
 	if(is.null(ltySet)) ltySet = refSet

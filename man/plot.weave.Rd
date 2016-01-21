@@ -4,8 +4,8 @@
 \alias{plot.weave}
 \title{Plot method for weave class}
 \usage{
-\method{plot}{weave}(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol =
-  3), graPar = list(), plotPar = list(), ...)
+\method{plot}{weave}(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3),
+  graPar = list(), mainPar = list(), ltySet = NULL, colSet = NULL, ...)
 }
 \arguments{
 \item{x}{A weave object.}
@@ -16,7 +16,9 @@
 
 \item{graPar}{A list of global graphics parameters.}
 
-\item{plotPar}{A list of background (including main title) parameters.}
+\item{mainPar}{A list of background (including main title) parameters.}
+
+\item{colSet, ltySet}{Vectors of numerics or characters specifying col types or line types.}
 
 \item{...}{ignored}
 }
@@ -26,7 +28,7 @@
 \examples{
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
-m1 = medWV(dataset = testset, degree = 6)
-plot(m1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+m1 = medWV(SVobj = testset, degree = 6)
+plot(m1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 }
 

@@ -4,8 +4,8 @@
 \alias{plot.grpWV}
 \title{Plot method for grpWV class}
 \usage{
-\method{plot}{grpWV}(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol =
-  3), graPar = list(), plotPar = list(), ...)
+\method{plot}{grpWV}(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3),
+  graPar = list(), mainPar = list(), colSet = NULL, ltySet = NULL, ...)
 }
 \arguments{
 \item{x}{A grpWV object.}
@@ -16,7 +16,9 @@
 
 \item{graPar}{A list of global graphics parameters.}
 
-\item{plotPar}{A list of background (including main title) parameters.}
+\item{mainPar}{A list of background (including main title) parameters.}
+
+\item{colSet, ltySet}{Vectors of numerics or characters specifying col types or line}
 
 \item{...}{ignored}
 }
@@ -26,7 +28,7 @@
 \examples{
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
-madw1 = madWV(dataset = testset, degree = 6)
-plot(madw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+madw1 = madWV(SVobj = testset, degree = 6)
+plot(madw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 }
 

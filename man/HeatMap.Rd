@@ -4,11 +4,11 @@
 \alias{HeatMap}
 \title{Plot heat map}
 \usage{
-HeatMap(mydata, mainPar = list(), heatPar = list(), legPar = list(),
-  axisPar = list(), globalPar = list())
+HeatMap(datMat, mainPar = list(), heatPar = list(), legPar = list(),
+  axisPar = list(), graPar = list())
 }
 \arguments{
-\item{mydata}{A matrix containing data.}
+\item{datMat}{A matrix containing data.}
 
 \item{mainPar}{A list of parameters of the title.}
 
@@ -19,7 +19,7 @@ HeatMap(mydata, mainPar = list(), heatPar = list(), legPar = list(),
 \item{axisPar}{A list of lists of parameters of axes. Every single list in it specifying
 one axis.}
 
-\item{globalPar}{A list sepecifying for the global graphical parameters.}
+\item{graPar}{A list sepecifying for the global graphical parameters.}
 }
 \value{
 A vector of numerics indicating the border of the core plot, (xleft, xright,
@@ -31,13 +31,13 @@ together based on specified arguments. It is needed to pay attention that all pa
  should be lists.
 }
 \examples{
-HeatMap(mydata = matrix(sample(1:100), 10, 10),
+HeatMap(datMat = matrix(sample(1:100), 10, 10),
                      mainPar = list(y = 1.65),
-                     heatPar = list(mycol = c("blue", "yellow", "green")),
+                     heatPar = list(colSet = c("blue", "yellow", "green")),
                      legPar = list(pos = c(10.5, 0, 11, 10), labels = c(0, 25, 50, 100),
                                      textPos = list(x = c(rep(11.5, 4)), y = c(0, 2.5, 5.0, 10.0))),
-                     axisPar = list(a1 = list(sep = c(1, 3, 5), col = 2:4),
-                                    a2 = list(bm = 10, tm = 11, sep = c(1, 5, 8), col = 4:7)),
-                     globalPar = list(mar = c(0, 2, 2, 2)))
+                     axisPar = list(a1 = list(sep = c(1, 3, 5), colSet = 2:4),
+                                    a2 = list(bm = 10, tm = 11, sep = c(1, 5, 8), colSet = 4:7)),
+                     graPar = list(mar = c(0, 2, 2, 2)))
 }
 

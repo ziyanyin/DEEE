@@ -4,11 +4,11 @@
 \alias{weave}
 \title{Produce a weave object.}
 \usage{
-weave(dataset, degree = 4, FUN = "median", interval = c(0, 1),
+weave(SVobj, degree = 4, FUN = "median", interval = c(0, 1),
   ifeq = FALSE)
 }
 \arguments{
-\item{dataset}{A samVec object containing data and other information.}
+\item{SVobj}{A samVec object containing data and other information.}
 
 \item{degree}{A integer specifying the degree of the polynomail logistic regression that
 applied to fit the data.}
@@ -50,7 +50,7 @@ for plotting instructions.
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
-medw1 = weave(dataset = testset, degree = 6, FUN = "median", interval = c(0, 1))
-plot(medw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+medw1 = weave(SVobj = testset, degree = 6, FUN = "median", interval = c(0, 1))
+plot(medw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 }
 

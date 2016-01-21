@@ -4,10 +4,10 @@
 \alias{PCA}
 \title{Produce a PCA object.}
 \usage{
-PCA(dataset, scale = F)
+PCA(SVobj, scale = F)
 }
 \arguments{
-\item{dataset}{A samVec object containing data and other information.}
+\item{SVobj}{A samVec object containing data and other information.}
 
 \item{scale}{A bool value indicating whether scaling is used or not?}
 }

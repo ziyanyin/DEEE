@@ -4,17 +4,17 @@
 \alias{plot.samVec}
 \title{Plot methods of class samVec}
 \usage{
-\method{plot}{samVec}(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1,
-  obj$nGroup), main = "KDE", legPar = list(), ...)
+\method{plot}{samVec}(x, graPar = NULL, colSet = 1:x$nGroup,
+  ltySet = rep(1, x$nGroup), main = "KDE", legPar = list(), ...)
 }
 \arguments{
 \item{x}{A samVec object.}
 
 \item{graPar}{A list of parameters adjusting the global graphics.}
 
-\item{col}{A vector of strings or integers specifying colors.}
+\item{colSet}{A vector of strings or integers specifying colors.}
 
-\item{lty}{A vector of integers specifying line types.}
+\item{ltySet}{A vector of integers specifying line types.}
 
 \item{main}{A string specifying main title.}
 

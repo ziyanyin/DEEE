@@ -35,8 +35,8 @@ with the same samVec objec and have the same FDR values but different test types
 \examples{
 data(GCwPADataA)
 t1 = samVec(GCwPADataA, selCol = list(1:5, 6:10, 11:15, 16:20, 21:25, 26:30), labels = LETTERS[1:6])
-EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1)
-DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1, ifF = TRUE)
+EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1)
+DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1, ifF = TRUE)
 pdf("test.pdf", width = 12, height = 8)
 PIE(DE, EE, figcol = 3, mainPar = list(y = 1.5, main = "TITLE", cex = 2.5),
  innerPIE = list(radius = 1, col = c("blue", "red", "green")),

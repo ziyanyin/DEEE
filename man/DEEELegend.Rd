@@ -4,7 +4,7 @@
 \alias{DEEELegend}
 \title{Add legends}
 \usage{
-DEEELegend(pos, textPos = NULL, cex = 1, labels, mycol = NULL)
+DEEELegend(pos, textPos = NULL, cex = 1, labels, colSet = NULL)
 }
 \arguments{
 \item{pos}{A vector of length four specifying (xleft, ybottom, xright, ytop),
@@ -17,7 +17,7 @@ positions.}
 
 \item{labels}{A vector of strings added to the legend.}
 
-\item{mycol}{A vector of strings giving the color range of legend. Usually not need to
+\item{colSet}{A vector of strings giving the color range of legend. Usually not need to
 be specified.}
 }
 \description{
@@ -28,7 +28,7 @@ testMatrix = matrix(sample(1:100), 10, 10)
 colnames(testMatrix) = 1:10
 rownames(testMatrix) = 1:10
 DEEEHeat(testMatrix)
-DEEEAxis(lm = 0, rm = 10, bm = 10, tm = 11, sep = c(1, 3, 5), col = 2:5)
+DEEEAxis(lm = 0, rm = 10, bm = 10, tm = 11, sep = c(1, 3, 5), colSet = 2:5)
 DEEELegend(pos = c(10.5, 5, 11, 10), labels = c(0, 50, 100), textPos = list(x = c(11.5,
  11.5, 11.5), y = c(5, 7.5, 10)))
 }

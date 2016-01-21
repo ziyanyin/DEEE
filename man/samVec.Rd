@@ -4,10 +4,10 @@
 \alias{samVec}
 \title{Produce a samVec object}
 \usage{
-samVec(myDataset, selCol = NULL, labels = NULL, dataType = "MAQC")
+samVec(datMat, selCol = NULL, labels = NULL, dataType = "MAQC")
 }
 \arguments{
-\item{myDataset}{A matrix.}
+\item{datMat}{A matrix.}
 
 \item{selCol}{A list of vector of integers containing absolute indexes of choosen columns.}
 
@@ -20,7 +20,7 @@ integer is given.}
 \value{
 \code{samVec} returns a samVec object. A samVec is a list contains:
 \describe{
- \item{data}{A matrix containing the data imported by myDataset.}
+ \item{data}{A matrix containing the data imported by datMat.}
  \item{nCol}{An integer indicating the number of columns of data.}
  \item{nGroup}{An interger indicating the number of groups specified by selCol.}
  \item{colInd}{A list of vector of integers containing relative indexes of columns.}

@@ -167,9 +167,10 @@ print.weave = function(x, ...)
 #' m1 = medWV(SVobj = testset, degree = 6)
 #' plot(m1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-plot.weave = function(x, indSet = 1:x$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), ltySet = NULL, colSet = NULL ...)
+plot.weave = function(x, indSet = NULL, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), ltySet = NULL, colSet = NULL, ...)
 {
     obj = x
+	if(is.null(indSet)) indSet = 1:x$nWV
     parDe = par(graPar)
     on.exit(par(parDe))
 

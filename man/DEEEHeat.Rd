@@ -4,13 +4,13 @@
 \alias{DEEEHeat}
 \title{Core function for heatmap.}
 \usage{
-DEEEHeat(mydata, mycol = NULL, graPar = list(), textNum = NULL,
+DEEEHeat(datMat, colSet = NULL, graPar = list(), textNum = NULL,
   textX = NULL, textY = NULL, Seg = TRUE)
 }
 \arguments{
-\item{mydata}{A matrix containing data.}
+\item{datMat}{A matrix containing data.}
 
-\item{mycol}{A vector of strings indicating color range.}
+\item{colSet}{A vector of strings indicating color range.}
 
 \item{graPar}{A list of global graphics parameters.}
 

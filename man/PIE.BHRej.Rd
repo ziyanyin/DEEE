@@ -4,15 +4,12 @@
 \alias{PIE.BHRej}
 \title{PIE plot}
 \usage{
-\method{PIE}{BHRej}(obj, objEE, graPar = NULL, main = NULL,
-  piePar = list(), ...)
+\method{PIE}{BHRej}(obj, objEE, graPar = NULL, piePar = list(), ...)
 }
 \arguments{
 \item{obj, objEE}{Objects of BHRej class.}
 
 \item{graPar}{A list of parameters adjusting global graphic.}
-
-\item{main}{A string specifying title.}
 
 \item{piePar}{A list of parameters adjusting the pie plot.}
 

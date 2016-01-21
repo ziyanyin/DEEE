@@ -13,7 +13,7 @@
 #' The objects of samVec class are the base for further analysis. 
 #' See \code{\link{plot.samVec}} for plotting instructions.
 #'
-#' @param myDataset A matrix.
+#' @param datMat A matrix.
 #' @param selCol A list of vector of integers containing absolute indexes of choosen columns.
 #' @param labels A vector of characters or short strings marking the groups. The length of
 #' labels should be the same with the length of selCol. If not specifying, a vector of
@@ -21,7 +21,7 @@
 #' @param dataType A string contains data type or other useful imformation.
 #' @return \code{samVec} returns a samVec object. A samVec is a list contains:
 #' \describe{
-#'  \item{data}{A matrix containing the data imported by myDataset.}
+#'  \item{data}{A matrix containing the data imported by datMat.}
 #'  \item{nCol}{An integer indicating the number of columns of data.}
 #'  \item{nGroup}{An interger indicating the number of groups specified by selCol.}
 #'  \item{colInd}{A list of vector of integers containing relative indexes of columns.}
@@ -35,11 +35,11 @@
 #' testset = samVec(datamatrix, selCol = list(1:5, 11:15, 21:25), dataType = "Example")
 #' plot(testset, main = testset$dataType)
 #' @export
-samVec = function(myDataset, selCol = NULL, labels = NULL, dataType = "MAQC")
+samVec = function(datMat, selCol = NULL, labels = NULL, dataType = "MAQC")
 {
-    if(!is.matrix(myDataset)) stop("myDataset has to be a matrix")
-    myDataset = myDataset[, unlist(selCol)]
-    nCol = ncol(myDataset)
+    if(!is.matrix(datMat)) stop("datMat has to be a matrix")
+    datMat = datMat[, unlist(selCol)]
+    nCol = ncol(datMat)
     nGroup = length(selCol)
     if(!is.list(selCol)) stop("selCol must be a list.")
     if(is.null(labels))
@@ -53,9 +53,9 @@ samVec = function(myDataset, selCol = NULL, labels = NULL, dataType = "MAQC")
         warning("Unequal numbers of labels and selCol.")
         labels = rep_len(labels, nGroup)
     }
-    testset = list(data = myDataset, nCol = nCol, nGroup = nGroup)
+    testset = list(data = datMat, nCol = nCol, nGroup = nGroup)
   	testset$colInd = colInd
-    testset$nRow = nrow(myDataset)
+    testset$nRow = nrow(datMat)
     testset$labels = labels
     testset$dataType = dataType
     testset$selCol = selCol

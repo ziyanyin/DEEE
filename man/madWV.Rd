@@ -4,10 +4,10 @@
 \alias{madWV}
 \title{Produce a grpWV object}
 \usage{
-madWV(dataset, degree = 4)
+madWV(SVobj, degree = 4)
 }
 \arguments{
-\item{dataset}{A samVec object containing data and other information.}
+\item{SVobj}{A samVec object containing data and other information.}
 
 \item{degree}{A integer specifying the degree of the polynomail logistic regression that
 applied to fit the data.}
@@ -39,7 +39,7 @@ for plotting instructions.
 data(GCwPADataA)
 testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
  dataType = "Example")
-gw1 = madWV(dataset = testset, degree = 6)
-plot(gw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+gw1 = madWV(SVobj = testset, degree = 6)
+plot(gw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 }
 
