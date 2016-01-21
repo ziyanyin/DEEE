@@ -20,7 +20,7 @@ NULL
 #' FUN = ``mad'', interval = c(0, 1) and ifeq = ``>''. See \code{\link{plot.grpWV}}
 #' for plotting instructions.
 #'
-#' @param dataset A samVec object containing data and other information.
+#' @param SVobj A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
 #' applied to fit the data.
 #' @param interval A value between 0 and 1 to restrict the rankit used.
@@ -47,17 +47,17 @@ NULL
 #' data(GCwPADataA)
 #' t1 = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
-#' madRes = grpWV(dataset = t1, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = TRUE)
-#' plot(madRes, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' madRes = grpWV(SVobj = t1, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = TRUE)
+#' plot(madRes, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FALSE)
+grpWV = function(SVobj, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FALSE)
 {
-    if(!is(dataset, "samVec")) stop("Invalid dataset input")
-    mydata = dataset$data
-	selCol = dataset$selCol
-	colInd = dataset$colInd
-    nWV = dataset$nGroup
-    nrow = dataset$nRow
+    if(!is(SVobj, "samVec")) stop("Invalid SVobj input")
+    mydata = SVobj$data
+	selCol = SVobj$selCol
+	colInd = SVobj$colInd
+    nWV = SVobj$nGroup
+    nrow = SVobj$nRow
 
     newX = MatRankit(mydata)
     myOd = Cpp_order(newX) + 1
@@ -72,7 +72,7 @@ grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FA
         predict(glm(newY ~ polyx, family = "binomial"), type = "response")
         })
     names(fitY) = 1:nWV
-    res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = interval, Function = FUN, ifeq = ifelse(ifeq, ">=", ">"), selCol = dataset$selCol, colInd = dataset$colInd, labels = dataset$labels, dataType = dataset$dataType)
+    res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = interval, Function = FUN, ifeq = ifelse(ifeq, ">=", ">"), selCol = SVobj$selCol, colInd = SVobj$colInd, labels = SVobj$labels, dataType = SVobj$dataType)
     class(res) = "grpWV"
     return(res)
 }
@@ -85,7 +85,7 @@ grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FA
 #' restriction but is much slower. See \code{\link{plot.grpWV}}
 #' for plotting instructions.
 #'
-#' @param dataset A samVec object containing data and other information.
+#' @param SVobj A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
 #' applied to fit the data.
 #' @return A grpWV object is returned, which is a list containing
@@ -107,17 +107,17 @@ grpWV = function(dataset, degree = 6, interval = c(0, 1), FUN = "mad", ifeq = FA
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
-#' gw1 = madWV(dataset = testset, degree = 6)
-#' plot(gw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' gw1 = madWV(SVobj = testset, degree = 6)
+#' plot(gw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-madWV = function(dataset, degree = 4)
+madWV = function(SVobj, degree = 4)
 {
-    if(!is(dataset, "samVec")) stop("Invalid dataset input")
-    mydata = dataset$data
-	selCol = dataset$selCol
-	colInd = dataset$colInd
-    nWV = dataset$nGroup
-    nrow = dataset$nRow
+    if(!is(SVobj, "samVec")) stop("Invalid SVobj input")
+    mydata = SVobj$data
+	selCol = SVobj$selCol
+	colInd = SVobj$colInd
+    nWV = SVobj$nGroup
+    nrow = SVobj$nRow
 
     newX = MatRankit(mydata)
     myOd = Cpp_order(newX) + 1
@@ -131,7 +131,7 @@ madWV = function(dataset, degree = 4)
 	})
 	names(fitY) = 1:nWV
 
-	res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = c(0, 1), Function = "mad", ifeq = ">", selCol = dataset$selCol, colInd = dataset$colInd, labels = dataset$labels, dataType = dataset$dataType)
+	res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = c(0, 1), Function = "mad", ifeq = ">", selCol = SVobj$selCol, colInd = SVobj$colInd, labels = SVobj$labels, dataType = SVobj$dataType)
     class(res) = "grpWV"
     return(res)
 }
@@ -157,28 +157,31 @@ print.grpWV = function(x, ...)
 #' @param indSet A vector of integers indicating which weaves are plotted.
 #' @param legPar A list of legend parameters.
 #' @param graPar A list of global graphics parameters.
-#' @param plotPar A list of background (including main title) parameters.
+#' @param mainPar A list of background (including main title) parameters.
+#' @param colSet,ltySet Vectors of numerics or characters specifying col types or line
 #' @param ... ignored
 #' @examples
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
-#' madw1 = madWV(dataset = testset, degree = 6)
-#' plot(madw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' madw1 = madWV(SVobj = testset, degree = 6)
+#' plot(madw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-plot.grpWV = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list(), ...)
+plot.grpWV = function(x, indSet = 1:x$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), colSet = NULL, ltySet = NULL, ...)
 {
     obj = x
-    refset = 1:length(obj$colInd)
+    refSet = 1:length(obj$colInd)
+	if(is.null(colSet)) colSet = refSet
+	if(is.null(ltySet)) ltySet = refSet
     parDe = par(graPar)
     on.exit(par(parDe))
 
-    do.call("plot", paraMerge(list(x = obj$interval, y = c(0.5, 0.5), xlab = "Rankit", ylab = paste0("Pr(", obj$Function, "(samples)", obj$ifeq, obj$Function, "(other samples))"), xlim = obj$interval, ylim = c(0, 1), type = "l", col = "gray", lty = 10), plotPar))
+    do.call("plot", paraMerge(list(x = obj$interval, y = c(0.5, 0.5), xlab = "Rankit", ylab = paste0("Pr(", obj$Function, "(samples)", obj$ifeq, obj$Function, "(other samples))"), xlim = obj$interval, ylim = c(0, 1), type = "l", col = "gray", lty = 10), mainPar))
     if(is.null(legPar$ifleg) || legPar$ifleg)
     {
         legLoc = NULL
         if(is.null(legPar$x)) legLoc = c(mean(obj$interval), 1.04)
         legPar$ifleg = NULL
-        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = 1, col = refset), legPar))
+        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltySet, col = colSet), legPar))
     }
 
 	fitY = obj$fitY
@@ -187,7 +190,7 @@ plot.grpWV = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3),
 
 	newX = x[myOd]
 	sapply(indSet, function(i) {
-		lines(x = newX, y = fitY[[i]][myOd], col = refset[i])
+		lines(x = newX, y = fitY[[i]][myOd], col = colSet[i], lty = ltySet[i])
 		})
     grid()
     invisible()

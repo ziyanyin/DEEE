@@ -19,7 +19,7 @@ NULL
 #' for plotting instructions.
 #'
 #' @param FDR A vector of numeric values between 0 and 1.
-#' @param testset A samVec object containing data and necessary information.
+#' @param SVobj A samVec object containing data and necessary information.
 #' @param ifF Test type. When ifF == TRUE, standard F tests are used and; otherwise,
 #' equivalence F tests.
 #' @param eps A numeric value specifying the equivalence test tolerance. Only valid when
@@ -35,18 +35,18 @@ NULL
 #' @examples
 #' data(GCwPADataA)
 #' t1 = samVec(GCwPADataA, selCol = list(1:5, 6:10, 11:15, 16:20, 21:25, 26:30), labels = LETTERS[1:6])
-#' EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1)
-#' DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1, ifF = TRUE)
+#' EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1)
+#' DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1, ifF = TRUE)
 #' pdf("test.pdf", width = 12, height = 8)
 #' PIE(DE, EE, figcol = 3, mainPar = list(y = 1.5, main = "TITLE", cex = 2.5),
 #'  innerPIE = list(radius = 1, col = c("blue", "red", "green")),
 #'  innerPar = list(mar = c(1.1, 2.1, 6.1, 0)), legPar = list(x = "bottomright", cex = 1.5))
 #' dev.off()
 #' @export
-BHRejVec = function(FDR = 0.1, testset, ifF = FALSE, eps = 0.5)
+BHRejVec = function(FDR = 0.1, SVobj, ifF = FALSE, eps = 0.5)
 {
-    if(!is(testset, "samVec")) stop("Invalid input; must be samVec object")
-    datalist = lapply(testset$colInd, function(x) testset$data[, x])
+    if(!is(SVobj, "samVec")) stop("Invalid input; must be samVec object")
+    datalist = lapply(SVobj$colInd, function(x) SVobj$data[, x])
 	tmpres = Cpp_fvalues(datalist)
 	k = tmpres[1]
 	n = tmpres[2]
@@ -66,8 +66,8 @@ BHRejVec = function(FDR = 0.1, testset, ifF = FALSE, eps = 0.5)
     res$BHProc = rejlist
 
     res$testType = ifelse(ifF, "DE", "EE")
-    res$labels = testset$labels
-    res$dataType = testset$dataType
+    res$labels = SVobj$labels
+    res$dataType = SVobj$dataType
 	res$FDR = FDR
     class(res) = "BHRejVec"
 
@@ -125,8 +125,8 @@ print.BHRejVec = function(x, ...)
 #' @examples
 #' data(GCwPADataA)
 #' t1 = samVec(GCwPADataA, selCol = list(1:5, 6:10, 11:15, 16:20, 21:25, 26:30), labels = LETTERS[1:6])
-#' EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1)
-#' DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), testset = t1, ifF = TRUE)
+#' EE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1)
+#' DE = BHRejVec(FDR = c(0.1, 0.05, 0.01, 0.005, 0.001), SVobj = t1, ifF = TRUE)
 #' pdf("test.pdf", width = 12, height = 8)
 #' PIE(DE, EE, figcol = 3, mainPar = list(y = 1.5, main = "TITLE", cex = 2.5),
 #'  innerPIE = list(radius = 1, col = c("blue", "red", "green")),
@@ -137,8 +137,10 @@ PIE.BHRejVec = function(obj, objEE, figcol = 1, graPar = list(), mainPar = list(
 {
     myDE = obj
     myEE = objEE
+
     tmppar = paraMerge(list(fig = par("fig"), new = par("new")), par(graPar))
     on.exit(par(tmppar))
+
     plot(1, 1, type = "n", axes = FALSE, xlab = "", ylab = "")
     do.call("text", paraMerge(list(x = 1, y = 1.5, labels = mainPar$main, font = 2, cex = 2, xpd = NA), mainPar))
 

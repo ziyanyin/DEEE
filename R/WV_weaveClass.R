@@ -20,7 +20,7 @@ NULL
 #' FUN = ``median'', interval = c(0, 1) and ifeq = ``>''. See \code{\link{plot.weave}}
 #' for plotting instructions.
 #'
-#' @param dataset A samVec object containing data and other information.
+#' @param SVobj A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
 #' applied to fit the data.
 #' @param FUN A string specifying the function used in weave.
@@ -47,16 +47,16 @@ NULL
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
-#' medw1 = weave(dataset = testset, degree = 6, FUN = "median", interval = c(0, 1))
-#' plot(medw1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' medw1 = weave(SVobj = testset, degree = 6, FUN = "median", interval = c(0, 1))
+#' plot(medw1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-weave = function(dataset, degree = 4, FUN = "median", interval = c(0, 1), ifeq = FALSE)
+weave = function(SVobj, degree = 4, FUN = "median", interval = c(0, 1), ifeq = FALSE)
 {
-    if(!is(dataset, "samVec")) stop("Invalid dataset input")
-    mydata = dataset$data
+    if(!is(SVobj, "samVec")) stop("Invalid SVobj input")
+    mydata = SVobj$data
 
-    nWV = dataset$nCol
-    nrow = dataset$nRow
+    nWV = SVobj$nCol
+    nrow = SVobj$nRow
 
     newX = MatRankit(mydata)
     myOd = Cpp_order(newX) + 1
@@ -74,7 +74,7 @@ weave = function(dataset, degree = 4, FUN = "median", interval = c(0, 1), ifeq =
         })
     names(fitY) = 1:nWV
 
-    res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = interval, Function = FUN, ifeq = ifelse(ifeq, ">=", ">"), selCol = dataset$selCol, colInd = dataset$colInd, labels = dataset$labels, dataType = dataset$dataType)
+    res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = interval, Function = FUN, ifeq = ifelse(ifeq, ">=", ">"), selCol = SVobj$selCol, colInd = SVobj$colInd, labels = SVobj$labels, dataType = SVobj$dataType)
     class(res) = "weave"
     return(res)
 }
@@ -87,7 +87,7 @@ weave = function(dataset, degree = 4, FUN = "median", interval = c(0, 1), ifeq =
 #' object with no restriction but is much slower. See \code{\link{plot.weave}}
 #' for plotting instructions.
 #'
-#' @param dataset A samVec object containing data and other information.
+#' @param SVobj A samVec object containing data and other information.
 #' @param degree A integer specifying the degree of the polynomail logistic regression that
 #' applied to fit the data.
 #' @return A weave object is returned, which is a list containing
@@ -109,16 +109,16 @@ weave = function(dataset, degree = 4, FUN = "median", interval = c(0, 1), ifeq =
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"),
 #'  dataType = "Example")
-#' m1 = medWV(dataset = testset, degree = 6)
-#' plot(m1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' m1 = medWV(SVobj = testset, degree = 6)
+#' plot(m1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-medWV = function(dataset, degree = 4)
+medWV = function(SVobj, degree = 4)
 {
-    if(!is(dataset, "samVec")) stop("Invalid dataset input")
-    mydata = dataset$data
+    if(!is(SVobj, "samVec")) stop("Invalid SVobj input")
+    mydata = SVobj$data
 
-    nWV = dataset$nCol
-    nrow = dataset$nRow
+    nWV = SVobj$nCol
+    nrow = SVobj$nRow
     newX = MatRankit(mydata)
     myOd = Cpp_order(newX) + 1
 
@@ -132,7 +132,7 @@ medWV = function(dataset, degree = 4)
 
 	names(fitY) = 1:nWV
 
-	res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = c(0, 1), Function = "median", ifeq = ">", selCol = dataset$selCol, colInd = dataset$colInd, labels = dataset$labels, dataType = dataset$dataType)
+	res = list(fitY = fitY, rankit = newX, order = myOd, nWV = nWV, interval = c(0, 1), Function = "median", ifeq = ">", selCol = SVobj$selCol, colInd = SVobj$colInd, labels = SVobj$labels, dataType = SVobj$dataType)
     class(res) = "weave"
     return(res)
 }
@@ -158,21 +158,22 @@ print.weave = function(x, ...)
 #' @param indSet A vector of integers indicating which weaves are plotted.
 #' @param legPar A list of legend parameters.
 #' @param graPar A list of global graphics parameters.
-#' @param plotPar A list of background (including main title) parameters.
+#' @param mainPar A list of background (including main title) parameters.
+#' @param colSet,ltySet Vectors of numerics or characters specifying col types or line types.
 #' @param ... ignored
 #' @examples
 #' data(GCwPADataA)
 #' testset = samVec(GCwPADataA, selCol = list(1:5, 11:15, 21:25), labels = c("E", "R", "T"))
-#' m1 = medWV(dataset = testset, degree = 6)
-#' plot(m1, legPar = list(cex = 1, ncol = 1), plotPar = list(main = "Example"))
+#' m1 = medWV(SVobj = testset, degree = 6)
+#' plot(m1, legPar = list(cex = 1, ncol = 1), mainPar = list(main = "Example"))
 #' @export
-plot.weave = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), plotPar = list(), ...)
+plot.weave = function(x, indSet = 1:x$nWV, legPar = list(cex = 0.6, ncol = 3), graPar = list(), mainPar = list(), ltySet = NULL, colSet = NULL ...)
 {
     obj = x
     parDe = par(graPar)
     on.exit(par(parDe))
 
-    do.call("plot", paraMerge(list(x = obj$interval, y = c(0.5, 0.5), xlab = "Rankit", ylab = paste0("Pr(sample", obj$ifeq, obj$Function, "(other samples))"), xlim = obj$interval, ylim = c(0, 1), type = "l", col = "gray", lty = 10), plotPar))
+    do.call("plot", paraMerge(list(x = obj$interval, y = c(0.5, 0.5), xlab = "Rankit", ylab = paste0("Pr(sample", obj$ifeq, obj$Function, "(other samples))"), xlim = obj$interval, ylim = c(0, 1), type = "l", col = "gray", lty = 10), mainPar))
 
 	fitY = obj$fitY
     x = obj$rankit
@@ -180,9 +181,11 @@ plot.weave = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3),
 	myOd = obj$order
 
 	newX = x[myOd]
-	refset = rep(1:length(obj$colInd), sapply(obj$colInd, length))
+	refSet = rep(1:length(obj$colInd), sapply(obj$colInd, length))
+	if(is.null(colSet)) colSet = refSet
+	if(is.null(ltySet)) ltySet = refSet
 	sapply(indSet, function(i) {
-		lines(x = newX, y = fitY[[i]][myOd], col = refset[i])
+		lines(x = newX, y = fitY[[i]][myOd], col = colSet[i], lty = ltySet[i])
 		})
     grid()
 
@@ -191,7 +194,7 @@ plot.weave = function(x, indSet = 1:obj$nWV, legPar = list(cex = 0.6, ncol = 3),
         legLoc = NULL
         if(is.null(legPar$x)) legLoc = c(mean(int), 1.04)
         legPar$ifleg = NULL
-        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = 1, col = 1:length(obj$labels)), legPar))
+        do.call("legend", paraMerge(list(x = legLoc[1], y = legLoc[2], legend = obj$labels, lty = ltySet, col = colSet), legPar))
     }
 
     invisible()

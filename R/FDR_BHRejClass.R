@@ -68,7 +68,6 @@ PIE = function(obj, ...) UseMethod("PIE")
 #'
 #' @param obj,objEE Objects of BHRej class.
 #' @param graPar A list of parameters adjusting global graphic.
-#' @param main A string specifying title.
 #' @param piePar A list of parameters adjusting the pie plot.
 #' @param ... ignored
 #' @examples
@@ -76,7 +75,7 @@ PIE = function(obj, ...) UseMethod("PIE")
 #' EE = BHRej(FDR = 0.1, runif(1000, 0, 0.1))
 #' PIE(DE, EE, piePar = list(radius = 0.9, main = "What"))
 #' @export
-PIE.BHRej = function(obj, objEE, graPar = NULL, main =  NULL, piePar = list(), ...)
+PIE.BHRej = function(obj, objEE, graPar = NULL, piePar = list(), ...)
 {
     DE = obj
     EE = objEE

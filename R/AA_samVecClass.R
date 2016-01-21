@@ -83,8 +83,8 @@ print.samVec = function(x, ...)
 #'
 #' @param x A samVec object.
 #' @param graPar A list of parameters adjusting the global graphics.
-#' @param col A vector of strings or integers specifying colors.
-#' @param lty A vector of integers specifying line types.
+#' @param colSet A vector of strings or integers specifying colors.
+#' @param ltySet A vector of integers specifying line types.
 #' @param main A string specifying main title.
 #' @param legPar A list of parameters specifying the legend.
 #' @param ... ignored
@@ -93,10 +93,10 @@ print.samVec = function(x, ...)
 #' testset = samVec(datamatrix, selCol = list(1:5, 11:15, 21:25), dataType = "Example")
 #' plot(testset, main = testset$dataType)
 #' @export
-plot.samVec = function(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1, obj$nGroup), main = "KDE", legPar = list(), ...)
+plot.samVec = function(x, graPar = NULL, colSet = 1:x$nGroup, ltySet = rep(1, x$nGroup), main = "KDE", legPar = list(), ...)
 {
     obj = x
-    parDe = par(graPar)
+    parDe = paraMerge(list(xpd = par("xpd")), par(graPar))
     on.exit(par(parDe))
     myData = obj$data
     tmpRes = lapply(obj$colInd, function(x) density(as.vector(myData[, x])))
@@ -105,11 +105,11 @@ plot.samVec = function(x, graPar = NULL, col = 1:obj$nGroup, lty = rep(1, obj$nG
     if(is.null(legPar$ifleg) || legPar$ifleg)
     {
         legPar$ifleg = NULL
-        do.call("legend", c(list("topright", legend = paste0("site ", obj$labels), col = col, lty = lty), legPar))
+        do.call("legend", c(list("topright", legend = paste0("site ", obj$labels), col = colSet, lty = ltySet), legPar))
     }
 
     sapply(seq_along(tmpRes), function(i) {
-        lines(tmpRes[[i]], col = col[i], lty = lty[i])
+        lines(tmpRes[[i]], col = colSet[i], lty = ltySet[i])
     })
 
     par(xpd = FALSE)

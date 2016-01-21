@@ -15,7 +15,7 @@ NULL
 #' \code{PCA} defines and produces a PCA object. See \code{\link{plot.PCA}}
 #' for plotting instructions.
 #'
-#' @param dataset A samVec object containing data and other information.
+#' @param SVobj A samVec object containing data and other information.
 #' @param scale A bool value indicating whether scaling is used or not?
 #' @return A PCA object is returned, which is list containing:
 #' \describe{
@@ -34,13 +34,13 @@ NULL
 #' pca1 = PCA(testset)
 #' plot(pca1, mainPar = list(labels = "Example", y = 1.55), pcaPar = list(cex = 1, font = 2))
 #' @export
-PCA = function(dataset, scale = F) {
-    if(!is(dataset, "samVec")) stop("Invalid dataset input")
-	X = dataset$data
+PCA = function(SVobj, scale = F) {
+    if(!is(SVobj, "samVec")) stop("Invalid SVobj input")
+	X = SVobj$data
 	fit = prcomp(t(X), scale = scale)
 	pcx1 = t(X)%*%fit$rotation[,1]
 	pcx2 = t(X)%*%fit$rotation[,2]
-	res = list(pcx1 = pcx1, pcx2 = pcx2, colInd = dataset$colInd, labels = dataset$labels, dataType = dataset$dataType, nGroup = dataset$nGroup, nCol = dataset$nCol, nRow = dataset$nRow)
+	res = list(pcx1 = pcx1, pcx2 = pcx2, colInd = SVobj$colInd, labels = SVobj$labels, dataType = SVobj$dataType, nGroup = SVobj$nGroup, nCol = SVobj$nCol, nRow = SVobj$nRow)
 	class(res) = "PCA"
 	return(res)
 }
