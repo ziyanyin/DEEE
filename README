@@ -2,7 +2,7 @@
 This package is designed for Differentially Expressed (DE) gene analysis and Equivalently Expressed (EE) genes analysis. This file gives a rough guidance of package DEEE.
 Given a preprocessed data matrix, A, you can:
 	First, "HeatMap" could give a snapshot of A.
-	Second, "samVec" could convert A to another object, SV, along with other information, and give KDE analysis on 
-	Third, "BHRejVec" could do DE and EE analysis with FDR control on B, "PCA" could do PCA analysis with B, and "weave" and "grpWV" could give weave plots for B .
+	Second, "samVec" could convert A to another object, SV, along with other information, and give KDE analysis on A.
+	Third, "BHRejVec" could do DE and EE analysis with FDR control on SV, "PCA" could do PCA analysis with SV, and "weave" and "grpWV" could give weave plots for SV.
 Further details could be found in the manual, "help(package = "DEEE")".
 
